@@ -15,6 +15,7 @@ const jwt = require("jsonwebtoken");
 const Hotel = require("./models/Hotel");
 const Hostel=require("./models/Hostel");
 const Dormitory=require("./models/Dormitory")
+const carRentals=require("./models/CarRentals")
 const { streetFoodModel } = require("./models/streetFoodModel");
 const nodemailer = require("nodemailer");
 
@@ -138,6 +139,11 @@ app.get("/getHostels", async (req, res) => {
   const hostels = await Hostel.find();
   res.json(hostels);
 });
+
+// app.get("/getCarRentals", async (req, res) => {
+//   const carRentals = await carRentals.find();
+//   res.json(carRentals);
+// });
 
 // app.get("/getDorms", async (req, res) => {
 //   const dorm = await Dorm.find();

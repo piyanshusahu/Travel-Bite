@@ -1,0 +1,134 @@
+*{
+    padding:0;
+    margin:0;
+    box-sizing:border-box;
+    /* transition:.3s ease; */
+}
+
+:root{
+    /* --PrimaryColor:hsl(26,93%,50%);
+    --HoverColor:hsl(26, 90%,42%);
+    --whiteColor:hsl(0,0%,100%);
+    --blackColor:hsl(0,0%,100%);
+    --textColor:hsl(240,1%,48%);
+    --whiteColorDeam:hsl(0,0%,93%);
+    --greyBg:hsl(0,0%,96%);
+    --greyText:rgb(190,190,190);
+    --inputColor:hsl(330,12%,97%); */
+
+    --PrimaryColor:hsl(199,100%,33%);
+    --SecondaryColor:hsl(187,85%,43%);
+    --gradientColor:linear-gradient(to right,hsl(187,85%,43%),hsl(190,100%,33%));
+    --whiteColor:hsl(0,0%,100%);
+    --blackColor:hsl(201,33%,16%);
+    --textColor:hsl(240,4%,36%);
+    --whiteColorDeam:hsl(0,0%,93%);
+    --greyText:rgb(190,190,190);
+    --inputColor:rgb(239,239,239);
+    --bodyColor:rgb(240,240,246);
+    --cardBG:rgb(225,225,235);   
+}
+
+a{
+    text-decoration:none;
+}
+li{
+    list-style:none;
+}
+.section{
+    padding:4rem 0 2rem;
+}
+
+.container{
+    padding-left:1.5rem;
+    padding-right:1.5rem;
+}
+
+.icon{
+      font-size:2rem;
+      cursor:pointer;
+}
+
+.flex{
+    display:flex;
+    align-items:center;
+}
+
+.grid{
+    display:grid;
+    align-items:center;
+}
+
+.btn{
+    /* padding:.4rem 1.5rem;
+    background:var(--PrimaryColor);
+    border:none;
+    outline:none;
+    border-radius:3rem;
+    cursor:pointer; */
+    padding:.6rem 1.5rem;
+    background:var(--gradientColor);
+    border-radius:3rem;
+    border:none;
+    outline:none;
+    cursor:pointer;
+
+}
+
+.btn a{
+    color:var(--whiteColor);
+    font-weight:500;
+}
+
+
+/* .btn:hover a{
+        color:var(--whiteColor);
+} */
+
+.btn:hover{
+    background:var(--SecondaryColor);
+}
+
+/* .secIntro{
+    max-width:70%;
+    text-align:center;
+    margin:0 auto 2rem;
+}
+
+.secIntro .sectitle{
+    color:var(--blackColor);
+    line-height:1.5rem;
+    padding-bottom:.5rem;
+}
+
+.section p{
+    font-size:13px;
+    color:var(--textColor);
+    font-weight:500;
+
+} */
+
+img,video{
+    width:100%;
+    height:auto;
+}
+
+input{
+    font-size:100%;
+}
+
+body{
+    background:var(--bodyColor);
+}
+
+
+
+@media screen and (min-width:1240px){
+    .container{
+        width:80% !important;
+        margin:auto !important;
+    }
+    .section{
+        padding:6rem 0 4rem;
+    }
+}
