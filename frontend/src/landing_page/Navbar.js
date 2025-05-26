@@ -61,12 +61,20 @@ function Navbar() {
                             </Link>
                         </li>
                         <li className='nav-item'>
-                            <Link to="/community" className='nav-links' onClick={closeMobileMenu}>
+                            <Link 
+                            //to="/community" 
+                            className='nav-links' 
+                            //onClick={closeMobileMenu}
+                            onClick={()=>alert("TO DO")}>
                                 Community
                             </Link>
                         </li>
                         <li className='nav-item'>
-                            <Link to="/categories" className='nav-links' onClick={closeMobileMenu}>
+                            <Link 
+                            //to="/categories" 
+                            className='nav-links' 
+                            //onClick={closeMobileMenu}>
+                            onClick={()=>alert("TO DO")}>
                                 Categories
                             </Link>
                         </li>
@@ -90,7 +98,7 @@ function Navbar() {
                                     <Login /> 
                                 </li>
                                 {button && (
-                                    <li className="nav-item">
+                                    <li className="nav-item" style={{marginTop:"3%"}}>
                                         <Button buttonStyle="btn--outline">SIGN UP</Button>
                                     </li>
                                 )}

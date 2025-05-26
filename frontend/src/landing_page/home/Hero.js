@@ -32,6 +32,7 @@ function Hero() {
   const destDropdownRef = useRef(null);
   const [isSearchActive, setIsSearchActive] = useState(false);
 
+  
   useEffect(() => {
     Aos.init({ duration: 2000 });
 
@@ -50,7 +51,9 @@ function Hero() {
         dest.trim() !== "" &&
         number > 0 &&
         depDate !== "" &&
-        retDate !== ""
+        retDate !== ""&&
+        depDate>=today&&
+        retDate>=depDate
     );
   }, [src, dest, number, depDate, retDate]);
 
@@ -350,7 +353,7 @@ function Hero() {
               <input
                 value={retDate}
                 onChange={(e) => setRetDate(e.target.value)}
-                min={departureDate}
+                min={depDate}
                 type="date"
               />
             </div>

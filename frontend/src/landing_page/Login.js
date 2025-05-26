@@ -48,6 +48,12 @@ function Login() {
   }
   modal
   nested
+  onOpen={()=>{
+    document.getElementById("app-content")?.classList.add("blur")
+  }}
+  onClose={()=>{
+    document.getElementById("app-content")?.classList.remove("blur")
+  }}
 >
   {(close) => (
     <div

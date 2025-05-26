@@ -29,3 +29,8 @@ label {
   .hidden{
     display: none;
   }
+
+  .blur{
+    filter: blur(10px);
+    transition: filter 0.1s ease;
+  }
