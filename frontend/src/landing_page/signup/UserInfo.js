@@ -184,15 +184,7 @@ function UserInfo() {
               <FaLock className="icon" />
             </div>
 
-            <div className="remember-forgot">
-              <label>
-                <input
-                  type="checkbox"
-                  value={true}
-                  onChange={formik.handleChange}
-                />
-                Remember me
-              </label>
+            <div className="remember-forgot" style={{marginLeft:"60%"}}>
               <a href="#">Forget Password?</a>
             </div>
             <div

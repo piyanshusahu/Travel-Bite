@@ -6,12 +6,12 @@ import Travel from "./Travel";
 import Button from "@mui/material/Button";
 import { Link } from "react-router-dom";
 
-function App() {
+function BudgetPage() {
   return (
     <div className="container" style={{ margin: "50px" }}>
       <Stay />
       <Travel />
-      <Link to="./itenary">
+      <Link to="/itenary">
         <Button variant="contained" style={{ marginLeft: "47%" }}>
           Next
         </Button>
@@ -20,4 +20,4 @@ function App() {
   );
 }
 
-export default App;
+export default BudgetPage;

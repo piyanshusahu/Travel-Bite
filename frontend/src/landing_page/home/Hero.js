@@ -251,6 +251,7 @@ function Hero() {
               justifyContent: "center",
               fontSize: "24px",
               color: "black",
+              cursor:"pointer"
             }}
             onClick={handleToggle}
           >
