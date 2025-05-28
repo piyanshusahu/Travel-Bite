@@ -140,13 +140,13 @@ app.get("/getHostels", async (req, res) => {
   res.json(hostels);
 });
 
-// app.get("/getCarRentals", async (req, res) => {
-//   const carRentals = await carRentals.find();
-//   res.json(carRentals);
-// });
+app.get("/getCarRentals", async (req, res) => {
+  const cars = await carRentals.find();
+  res.json(cars);
+});
 
-// app.get("/getDorms", async (req, res) => {
-//   const dorm = await Dorm.find();
-//   res.json(dorm);
-// });
+app.get("/getDorms", async (req, res) => {
+  const dorm = await Dormitory.find();
+  res.json(dorm);
+});
 

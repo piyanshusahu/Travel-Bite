@@ -25,6 +25,12 @@ function Travel() {
     setIsCarRental(false);
     setIsPublicT(true);
   }
+  useEffect(()=>{
+    if (isCarRental && carRental.length === 0) {
+      alert("No car rentals found at your budget");
+      setIsCarRental(false);
+    } 
+  },[carRental,isCarRental])
 
   useEffect(() => {
     Aos.init({ duration: 2000 });
@@ -35,7 +41,7 @@ function Travel() {
         const filteredCarRental = data
           .filter(
             (car) =>
-              car.city === dest && travelBudget + 500 >= carRental["price"][0]
+              car.city === dest && travelBudget + 100 >= car['price'][0]
           )
           .sort((a, b) => b.price[0] - a.price[0]);
         setCarRental(filteredCarRental);

@@ -50,6 +50,6 @@ const carRentalSchema = new mongoose.Schema({
   }
 });
 
-const carrental = mongoose.model("carrental", carRentalSchema);
+const carRentals = mongoose.model("carRentals", carRentalSchema);
 
-module.exports = carrental;
+module.exports = carRentals;

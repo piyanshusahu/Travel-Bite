@@ -29,7 +29,7 @@ function UserInfo() {
     initialValues: {
       firstName: "",
       lastName: "",
-      Gender: "rather not say",
+      Gender: "null",
       userName: "",
       email: "",
       phone: "",
@@ -37,21 +37,23 @@ function UserInfo() {
     },
     validationSchema: SignupSchema,
   });
-const submitInfo = () => {
-  if(formik.values.firstName===""){
-    alert("Required first name");
-  }
-  axios.post("http://localhost:3002/signup", {
-    firstName: formik.values.firstName,
-    lastName: formik.values.lastName,
-    gender: formik.values.gender,
-    userName: formik.values.userName,
-    email: formik.values.email,
-    phone: formik.values.phone,
-    password: formik.values.password,
-    isRemember: formik.values.isRemember,
-  });
-};
+  const submitInfo = () => {
+    if (formik.values.firstName === "") {
+      alert("Required first name");
+    } 
+      axios.post("http://localhost:3002/signup", {
+        firstName: formik.values.firstName,
+        lastName: formik.values.lastName,
+        gender: formik.values.gender,
+        userName: formik.values.userName,
+        email: formik.values.email,
+        phone: formik.values.phone,
+        password: formik.values.password,
+        isRemember: formik.values.isRemember,
+      });
+      };
+
+    const [isSubmitActive,setIsSubmitActive]=useState(false);
 
   return (
     <div className="signup">
@@ -193,11 +195,22 @@ const submitInfo = () => {
               </label>
               <a href="#">Forget Password?</a>
             </div>
-            <Link to="/">
-              <button type="submit" onClick={submitInfo}>
-                Sign Up
-              </button>
+            <div
+            //onClick={handleNext}
+            className={`searchOptions flex`}
+            style={{
+              opacity: isSubmitActive ? 1 : 0.9,
+              cursor: isSubmitActive ? "pointer" : "not-allowed",
+              // pointerEvents: isSearchActive ? "auto" : "none",
+            }}
+          >
+            <Link
+              to={isSubmitActive ? "./budget" : "#"}
+              style={{ pointerEvents: isSubmitActive ? "auto" : "none" }}
+            >
+              <span style={{ color: "white" }}>Submit</span>
             </Link>
+          </div>
             <div className="register-link">
               <p>
                 Already have an account? <a href="">Log in</a>

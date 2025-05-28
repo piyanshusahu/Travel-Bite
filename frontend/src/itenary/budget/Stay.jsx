@@ -76,8 +76,7 @@ function Stay() {
     }
   }, [hotel, hostel, dorm, isHotel, isHostel, isDorm]);
   return (
-    <>
-      {console.log(hotel)}
+    <div className="budgetContainer" style={{marginTop:"3%"}}>
       <div
         className="stayBudget"
         style={{ display: "flex", gap: "20px", alignItems: "center" }}
@@ -123,7 +122,7 @@ function Stay() {
         {isHostel && <Carousel places={hostel} />}
         {isDorm && <Carousel places={dorm} />}
       </div>
-    </>
+    </div>
   );
 }
 
