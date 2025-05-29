@@ -19,6 +19,8 @@ function Stay() {
   const [hostel, setHostel] = useState([]);
   const [dorm, setDorm] = useState([]);
 
+  const[showLabel,setLabel]=useState(false);
+
   let handleHotel = () => {
     setIsHotel(!isHotel);
     setIsHostel(false);
@@ -102,6 +104,9 @@ function Stay() {
             aria-label="Default"
             style={{ width: "50vw" }}
             onChange={(e) => setStayBudget(Number(e.target.value))}
+            onMouseOver={()=>setLabel(true)}
+            onMouseLeave={()=>setLabel(false)}
+            valueLabelDisplay={showLabel ? 'on' : 'off'}
           />
         </div>
       </div>
@@ -127,3 +132,4 @@ function Stay() {
 }
 
 export default Stay;
+
