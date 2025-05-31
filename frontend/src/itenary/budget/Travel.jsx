@@ -51,7 +51,7 @@ function Travel() {
   
   return (
     <>
-      <div className="travelBudget" style={{ display: "flex", gap: "20px" }}>
+      <div className="travelBudget" style={{ display: "flex", gap: "20px",marginTop:"6%" }}>
         <div>
           <TextField
             id="outlined-basic"

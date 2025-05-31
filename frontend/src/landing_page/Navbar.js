@@ -65,7 +65,7 @@ function Navbar() {
                             //to="/community" 
                             className='nav-links' 
                             //onClick={closeMobileMenu}
-                            onClick={()=>alert("TO DO")}>
+                            onClick={()=>alert("Work in Progress")}>
                                 Community
                             </Link>
                         </li>
@@ -74,7 +74,7 @@ function Navbar() {
                             //to="/categories" 
                             className='nav-links' 
                             //onClick={closeMobileMenu}>
-                            onClick={()=>alert("TO DO")}>
+                            onClick={()=>alert("Work in Progress")}>
                                 Categories
                             </Link>
                         </li>
