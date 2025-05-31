@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
-import InputAdornment from '@mui/material/InputAdornment';
-import EmailIcon from '@mui/icons-material/Email';
+import InputAdornment from "@mui/material/InputAdornment";
+import EmailIcon from "@mui/icons-material/Email";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -84,28 +84,38 @@ const ForgotPassword = () => {
               }}
             />
           </div>
-
-          <Button
-            type="submit"
-            variant="contained"
-            color="primary"
-            sx={{
-              mt: 3,
-              py: 1.5,
-              fontWeight: "500",
-              marginLeft: "33%",
-              marginTop: "7%",
-            }}
-          >
-            📩 Send Reset Link
-          </Button>
+          <div className="flex" style={{justifyContent:"space-between"}}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              sx={{
+                mt: 3,
+                py: 1.5,
+                fontWeight: "500",
+                marginLeft: "33%",
+                marginTop: "7%",
+              }}
+            >
+              📩 Send Reset Link
+            </Button>
+            <a
+              href="/"
+              className="text-blue-500 hover:underline text-sm"
+              style={{ marginTop: "5%" }}
+              onMouseOver={(e)=>{
+                e.target.style.backgroundColor="blue";
+                e.target.style.color="white";
+              }}
+              onMouseLeave={(e)=>{
+                e.target.style.backgroundColor="white";
+                e.target.style.color="blue";
+              }}
+            >
+              Back to Login
+            </a>
+          </div>
         </form>
-
-        <div className="text-center" style={{ marginTop: "15%" }}>
-          <a href="/" className="text-blue-500 hover:underline text-sm">
-            Back to Login
-          </a>
-        </div>
       </div>
     </div>
   );
