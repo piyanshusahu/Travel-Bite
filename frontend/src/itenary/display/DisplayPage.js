@@ -1,52 +1,17 @@
-// import React from 'react';
-// import { useLocation } from 'react-router-dom';
-
-// function DisplayPage() {
-//   const location = useLocation();
-//   const queryParams = new URLSearchParams(location.search);
-
-//   const src = queryParams.get('src');
-//   const dest = queryParams.get('dest');
-//   const no = queryParams.get('no');
-//   const dep = queryParams.get('dep');
-//   const ret = queryParams.get('ret');
-
-//   return (
-//     <div className="container mx-auto p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4">
-//       <div className="info bg-white shadow-md rounded-2xl p-6 hover:shadow-xl transition duration-300">
-//         <p className="text-lg font-semibold text-gray-800">
-//           {`Trip from ${src} to ${dest}`}
-//         </p>
-//         <p className="text-md text-gray-600">Travelers: {no}</p>
-//         <p className="text-md text-gray-600">Departure: {dep}</p>
-//         <p className="text-md text-gray-600">Return: {ret}</p>
-//       </div>
-//       <div className="bg-white shadow-md rounded-2xl p-6 hover:shadow-xl transition duration-300">
-//         <p className="text-lg font-semibold text-gray-800">Hotels</p>
-//       </div>
-//       <div className="bg-white shadow-md rounded-2xl p-6 hover:shadow-xl transition duration-300">
-//         <p className="text-lg font-semibold text-gray-800">Rent</p>
-//       </div>
-//       <div className="bg-white shadow-md rounded-2xl p-6 hover:shadow-xl transition duration-300">
-//         <p className="text-lg font-semibold text-gray-800">Visit</p>
-//       </div>
-//       <div className="bg-white shadow-md rounded-2xl p-6 hover:shadow-xl transition duration-300">
-//         <p className="text-lg font-semibold text-gray-800">Food</p>
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default DisplayPage;
-
-import React from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import "./DisplayPage.css";
+import Button from "@mui/material/Button";
+import DetailItenary from "./DetailItenary";
 
 function DisplayPage() {
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
+  const [displayDetail, setDisplayDetail] = useState(false);
 
+  const handleDetail = () => {
+    setDisplayDetail(!displayDetail);
+  };
   const src = queryParams.get("src");
   const dest = queryParams.get("dest");
   const no = queryParams.get("no");
@@ -102,7 +67,7 @@ function DisplayPage() {
               backgroundColor: "rgb(0, 153, 204)",
             }}
           >
-            <h5 style={{textAlign:"center"}}>DESTINATION</h5>
+            <h5 style={{ textAlign: "center" }}>DESTINATION</h5>
           </div>
           <div
             className=""
@@ -112,7 +77,7 @@ function DisplayPage() {
               backgroundColor: "rgb(82, 187, 85)",
             }}
           >
-            <h5 style={{textAlign:"center"}}>EAT</h5>
+            <h5 style={{ textAlign: "center" }}>EAT</h5>
           </div>
           <div
             className=""
@@ -122,7 +87,7 @@ function DisplayPage() {
               backgroundColor: "rgb(0, 153, 204)",
             }}
           >
-            <h5 style={{textAlign:"center"}}>LEISURE</h5>
+            <h5 style={{ textAlign: "center" }}>LEISURE</h5>
           </div>
           <div
             className=""
@@ -132,9 +97,26 @@ function DisplayPage() {
               backgroundColor: "rgb(82, 187, 85)",
             }}
           >
-            <h5 style={{textAlign:"center"}}>TRANSPORTATION</h5>
+            <h5 style={{ textAlign: "center" }}>TRANSPORTATION</h5>
           </div>
         </div>
+      </div>
+      <div className="detail flex" style={{justifyContent:"center",marginBottom:"3%"}}>
+      <Button
+        variant="contained"
+        style={{
+          height: "7vh",
+          width: "13vw",
+          borderRadius: "2rem",
+          fontFamily:"cursive",
+          fontWeight:"bold",
+          fontSize:"1rem"
+        }}
+        onClick={handleDetail}
+      >
+        Show in Detail
+      </Button>
+        {displayDetail && <DetailItenary />}
       </div>
     </>
   );

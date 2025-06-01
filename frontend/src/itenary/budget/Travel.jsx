@@ -18,12 +18,12 @@ function Travel() {
   const [publicT, setPublicT] = useState([]);
 
   function handlecarRental(){
-    setIsCarRental(true);
+    setIsCarRental(!isCarRental);
     setIsPublicT(false);
   }
   function handlePublicT(){
     setIsCarRental(false);
-    setIsPublicT(true);
+    setIsPublicT(!isPublicT);
   }
   useEffect(()=>{
     if (isCarRental && carRental.length === 0) {

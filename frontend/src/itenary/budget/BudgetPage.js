@@ -48,10 +48,13 @@ function BudgetPage() {
           marginTop: "5%",
           marginBottom: "5%",
           borderRadius: "2rem",
+          fontFamily:"cursive",
+          fontWeight:"bold",
+          fontSize:"1.2rem"
         }}
         onClick={handleNext}
       >
-        <p style={{ fontFamily: "cursive" }}>Next</p>
+        Next
       </Button>
     </motion.div>
   );
