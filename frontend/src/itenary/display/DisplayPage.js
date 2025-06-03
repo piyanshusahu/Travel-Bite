@@ -22,6 +22,7 @@ function DisplayPage() {
   const retDate = new Date(ret);
   const timeDifferenceMs = retDate.getTime() - depDate.getTime();
   const days = Math.ceil(timeDifferenceMs / (1000 * 60 * 60 * 24));
+  const dayItems = Array.from({ length: days }, (_, index) => index + 1);
   return (
     <>
       <div className="itenary">
@@ -65,9 +66,34 @@ function DisplayPage() {
               height: `${days * 15}vh`,
               width: "300px",
               backgroundColor: "rgb(0, 153, 204)",
+              borderRadius: "10rem",
             }}
           >
-            <h5 style={{ textAlign: "center" }}>DESTINATION</h5>
+            <h5
+              style={{
+                marginTop: "4%",
+                textAlign: "center",
+                fontFamily: "sans-serif",
+              }}
+            >
+              Destination
+            </h5>
+            {dayItems.map((dayNumber) => (
+              <li
+                style={{
+                  fontSize: "1.3rem",
+                  fontWeight: "bold",
+                  paddingLeft: "10%",
+                  fontFamily: "cursive",
+                  marginBottom: "10%",
+                  marginTop: "15%",
+                }}
+                key={dayNumber}
+                className="day-item"
+              >
+                Day {dayNumber}
+              </li>
+            ))}
           </div>
           <div
             className=""
@@ -75,9 +101,28 @@ function DisplayPage() {
               height: `${days * 15}vh`,
               width: "300px",
               backgroundColor: "rgb(82, 187, 85)",
+              borderRadius: "10rem",
             }}
           >
-            <h5 style={{ textAlign: "center" }}>EAT</h5>
+            <h5 style={{marginTop: "4%", textAlign: "center", fontFamily: "sans-serif" }}>
+              Eat
+            </h5>
+            {dayItems.map((dayNumber) => (
+              <li
+                style={{
+                  fontSize: "1.3rem",
+                  fontWeight: "bold",
+                  paddingLeft: "10%",
+                  fontFamily: "cursive",
+                  marginBottom: "10%",
+                  marginTop: "15%",
+                }}
+                key={dayNumber}
+                className="day-item"
+              >
+                Day {dayNumber}
+              </li>
+            ))}
           </div>
           <div
             className=""
@@ -85,9 +130,28 @@ function DisplayPage() {
               height: `${days * 15}vh`,
               width: "300px",
               backgroundColor: "rgb(0, 153, 204)",
+              borderRadius: "10rem",
             }}
           >
-            <h5 style={{ textAlign: "center" }}>LEISURE</h5>
+            <h5 style={{marginTop: "4%", textAlign: "center", fontFamily: "sans-serif" }}>
+              Leisure
+            </h5>
+            {dayItems.map((dayNumber) => (
+              <li
+                style={{
+                  fontSize: "1.3rem",
+                  fontWeight: "bold",
+                  paddingLeft: "10%",
+                  fontFamily: "cursive",
+                  marginBottom: "10%",
+                  marginTop: "15%",
+                }}
+                key={dayNumber}
+                className="day-item"
+              >
+                Day {dayNumber}
+              </li>
+            ))}
           </div>
           <div
             className=""
@@ -95,27 +159,49 @@ function DisplayPage() {
               height: `${days * 15}vh`,
               width: "300px",
               backgroundColor: "rgb(82, 187, 85)",
+              borderRadius: "10rem",
             }}
           >
-            <h5 style={{ textAlign: "center" }}>TRANSPORTATION</h5>
+            <h4 style={{ marginTop: "4%",textAlign: "center", fontFamily: "sans-serif" }}>
+              Transport
+            </h4>
+            {dayItems.map((dayNumber) => (
+              <li
+                style={{
+                  fontSize: "1.3rem",
+                  fontWeight: "bold",
+                  paddingLeft: "10%",
+                  fontFamily: "cursive",
+                  marginBottom: "10%",
+                  marginTop: "15%",
+                }}
+                key={dayNumber}
+                className="day-item"
+              >
+                Day {dayNumber}
+              </li>
+            ))}
           </div>
         </div>
       </div>
-      <div className="detail flex" style={{justifyContent:"center",marginBottom:"3%"}}>
-      <Button
-        variant="contained"
-        style={{
-          height: "7vh",
-          width: "13vw",
-          borderRadius: "2rem",
-          fontFamily:"cursive",
-          fontWeight:"bold",
-          fontSize:"1rem"
-        }}
-        onClick={handleDetail}
+      <div
+        className="detail flex"
+        style={{ justifyContent: "center", marginBottom: "3%" }}
       >
-        Show in Detail
-      </Button>
+        <Button
+          variant="contained"
+          style={{
+            height: "7vh",
+            width: "13vw",
+            borderRadius: "2rem",
+            fontFamily: "cursive",
+            fontWeight: "bold",
+            fontSize: "1rem",
+          }}
+          onClick={handleDetail}
+        >
+          Show in Detail
+        </Button>
         {displayDetail && <DetailItenary />}
       </div>
     </>
