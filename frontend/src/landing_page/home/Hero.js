@@ -244,8 +244,8 @@ function Hero() {
               border: "1px solid black",
               borderRadius: "50px",
               height: "50px",
-              width: "50px",
-              marginLeft: "170px",
+              width: "150px",
+              marginLeft: "110px",
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -254,6 +254,8 @@ function Hero() {
               cursor:"pointer"
             }}
             onClick={handleToggle}
+            //onMouseEnter={(e)=>e.currentTarget.style.backgroundColor="#87CEEB"}
+            //onMouseLeave={(e)=>e.currentTarget.style.backgroundColor="white"}
           >
             <span>
               <FontAwesomeIcon icon={faRightLeft} />

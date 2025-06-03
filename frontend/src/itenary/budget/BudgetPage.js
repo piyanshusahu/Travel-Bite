@@ -6,6 +6,9 @@ import Travel from "./Travel";
 import Button from "@mui/material/Button";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion"; // Import motion
+import { styled } from "@mui/material/styles";
+import InputRadios from "./InputRadios";
+
 
 function BudgetPage() {
   const location = useLocation();
@@ -37,7 +40,10 @@ function BudgetPage() {
       transition={{ duration: 0.8, ease: "easeOut" }} // Smooth animation
     >
       <Stay />
-      <Travel />
+      {/* <Travel /> */}
+      <div className="moreFilter">
+        <InputRadios />
+      </div>
 
       <Button
         variant="contained"
@@ -48,9 +54,9 @@ function BudgetPage() {
           marginTop: "5%",
           marginBottom: "5%",
           borderRadius: "2rem",
-          fontFamily:"cursive",
-          fontWeight:"bold",
-          fontSize:"1.2rem"
+          fontFamily: "cursive",
+          fontWeight: "bold",
+          fontSize: "1.2rem",
         }}
         onClick={handleNext}
       >
