@@ -73,7 +73,20 @@ function Travel() {
           />
         </div>
         <div className="show">
-          <Button variant="contained" onClick={()=>setIsCarRental(!isCarRental)}>Show</Button>
+          <Button
+            variant="contained"
+            style={{
+              borderRadius: "2rem",
+              height: "6vh",
+              width: "6vw",
+              textAlign: "center",
+              fontFamily:"cursive",
+
+            }}
+            onClick={() => setIsCarRental(!isCarRental)}
+          >
+            Show
+          </Button>
         </div>
       </div>
 

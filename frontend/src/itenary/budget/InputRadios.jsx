@@ -7,7 +7,7 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import Travel from "./Travel";
 
-const BpIcon = styled("span")(({ theme }) => ({
+const BpIcon = styled("li")(({ theme }) => ({
   borderRadius: "50%",
   width: 16,
   height: 16,
@@ -70,53 +70,95 @@ function BpRadio(props) {
   );
 }
 function InputRadios() {
-    const [carRentals,setcarRentals]=React.useState(false);
-    
+  const [carRentals, setcarRentals] = React.useState(false);
+
   return (
-    <div>
-      <FormControl>
-        <FormLabel id="demo-customized-radios">Food Type</FormLabel>
-        <RadioGroup
-          defaultValue="mixed"
-          aria-labelledby="demo-customized-radios"
-          name="customized-radios"
+    <>
+      <div className="container flex">
+        <div
+          className="typeOfFood"
+          style={{ height: "30vh", width: "30vw", padding: "2rem" }}
         >
-          <FormControlLabel
-            value="Only Veg"
-            control={<BpRadio />}
-            label="Veg"
-          />
-          <FormControlLabel
-            value="Only Non-Veg"
-            control={<BpRadio />}
-            label="Non-Veg"
-          />
-          <FormControlLabel value="Mixed" control={<BpRadio />} label="Mixed" />
-        </RadioGroup>
-      </FormControl>
-      <FormControl>
-        <FormLabel id="demo-customized-radios">Do you want to opt for Car Rentals</FormLabel>
-        <RadioGroup
-          defaultValue="mixed"
-          aria-labelledby="demo-customized-radios"
-          name="customized-radios"
+          <FormControl>
+            <FormLabel id="demo-customized-radios">
+              <p
+                style={{
+                  fontFamily: "cursive",
+                  fontWeight: "bold",
+                  fontSize: "1.5em",
+                }}
+              >
+                Choose your food type
+              </p>
+            </FormLabel>
+            <RadioGroup
+              defaultValue="mixed"
+              aria-labelledby="demo-customized-radios"
+              name="customized-radios"
+              style={{}}
+            >
+              <FormControlLabel
+                value="Only Veg"
+                control={<BpRadio />}
+                label="Veg"
+                style={{ margin: "0.8rem" }}
+              />
+              <FormControlLabel
+                value="Only Non-Veg"
+                control={<BpRadio />}
+                label="Non-Veg"
+                style={{ margin: "0.8rem" }}
+              />
+              <FormControlLabel
+                value="Mixed"
+                control={<BpRadio />}
+                label="Mixed"
+                style={{ margin: "0.8rem" }}
+              />
+            </RadioGroup>
+          </FormControl>
+        </div>
+        <div
+          className="car"
+          style={{ height: "30vh", width: "30vw", padding: "2rem" }}
         >
-          <FormControlLabel
-            value="Only Veg"
-            control={<BpRadio />}
-            label="Yes"
-            onClick={()=>setcarRentals(true)}
-          />
-          <FormControlLabel
-            value="Only Non-Veg"
-            control={<BpRadio />}
-            label="No"
-            onClick={()=>setcarRentals(false)}
-          />
-        </RadioGroup>
-      </FormControl>
-      {carRentals && < Travel/>}
-    </div>
+          <FormControl>
+            <FormLabel id="demo-customized-radios">
+              <p
+                style={{
+                  fontFamily: "cursive",
+                  fontWeight: "bold",
+                  fontSize: "1.5em",
+                }}
+              >
+                Do you want to rent a car?
+              </p>
+            </FormLabel>
+            <RadioGroup
+              defaultValue="mixed"
+              aria-labelledby="demo-customized-radios"
+              name="customized-radios"
+            >
+              <FormControlLabel
+                value="Only Veg"
+                control={<BpRadio />}
+                label="Yes"
+                onClick={() => setcarRentals(true)}
+                style={{ margin: "0.8rem" }}
+              />
+              <FormControlLabel
+                value="Only Non-Veg"
+                control={<BpRadio />}
+                label="No"
+                onClick={() => setcarRentals(false)}
+                style={{ margin: "0.8rem" }}
+              />
+            </RadioGroup>
+          </FormControl>
+        </div>
+      </div>
+      {carRentals && <Travel />}
+    </>
   );
 }
 

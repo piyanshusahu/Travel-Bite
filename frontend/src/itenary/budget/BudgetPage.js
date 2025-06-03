@@ -51,7 +51,7 @@ function BudgetPage() {
           height: "7vh",
           width: "9vw",
           marginLeft: "44%",
-          marginTop: "5%",
+          marginTop: "9%",
           marginBottom: "5%",
           borderRadius: "2rem",
           fontFamily: "cursive",
