@@ -14,8 +14,9 @@ const path = require('path');
 const jwt = require("jsonwebtoken");
 const Hotel = require("./models/Hotel");
 const Hostel=require("./models/Hostel");
-const Dormitory=require("./models/Dormitory")
-const carRentals=require("./models/CarRentals")
+const Dormitory=require("./models/Dormitory");
+const carRentals=require("./models/CarRentals");
+const Place=require("./models/placesModel");
 const { streetFoodModel } = require("./models/streetFoodModel");
 const nodemailer = require("nodemailer");
 
@@ -150,3 +151,7 @@ app.get("/getDorms", async (req, res) => {
   res.json(dorm);
 });
 
+app.get("/getPlaces", async (req, res) => {
+  const places = await Place.find();
+  res.json(places);
+});
