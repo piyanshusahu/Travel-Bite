@@ -4,8 +4,12 @@ const resterauntSchema = new Schema({
   name: String,
   address: String,
   contact: Number,
+  special: String,
+  type: String,
   rating: Number,
   reviews: String,
+  images: [],
+  pin_code: Number
 });
 
 module.exports = { resterauntSchema };
