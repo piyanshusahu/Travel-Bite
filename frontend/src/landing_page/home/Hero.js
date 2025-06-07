@@ -7,13 +7,12 @@ import { GrLocation } from "react-icons/gr";
 import { FaSearch } from "react-icons/fa";
 import { IoIosPeople } from "react-icons/io";
 import { useNavigate, Link } from "react-router-dom";
-import { useLocation } from "react-router-dom";
 
 import Aos from "aos";
 import "aos/dist/aos.css";
 
 function Hero() {
-  const navigate=useNavigate();
+  const navigate = useNavigate();
   const today = new Date().toISOString().split("T")[0];
   const [departureDate, setDepartureDate] = useState(today);
   const [src, setSrc] = useState("");
@@ -26,13 +25,18 @@ function Hero() {
   const [isSrcDropdownVisible, setIsSrcDropdownVisible] = useState(false);
   const [isDestDropdownVisible, setIsDestDropdownVisible] = useState(false);
   const [city, setCity] = useState([]);
+
   const srcInputRef = useRef(null);
   const destInputRef = useRef(null);
   const srcDropdownRef = useRef(null);
   const destDropdownRef = useRef(null);
+
   const [isSearchActive, setIsSearchActive] = useState(false);
 
-  
+  // NEW states for keyboard navigation
+  const [srcHighlightedIndex, setSrcHighlightedIndex] = useState(-1);
+  const [destHighlightedIndex, setDestHighlightedIndex] = useState(-1);
+
   useEffect(() => {
     Aos.init({ duration: 2000 });
 
@@ -51,9 +55,9 @@ function Hero() {
         dest.trim() !== "" &&
         number > 0 &&
         depDate !== "" &&
-        retDate !== ""&&
-        depDate>=today&&
-        retDate>=depDate
+        retDate !== "" &&
+        depDate >= today &&
+        retDate >= depDate
     );
   }, [src, dest, number, depDate, retDate]);
 
@@ -65,34 +69,41 @@ function Hero() {
       setTempDest(src);
     }
   }
+
   function setSrcDropdown() {
     setIsSrcDropdownVisible(true);
     setIsDestDropdownVisible(false);
+    setSrcHighlightedIndex(-1);
   }
   function setDestDropdown() {
     setIsDestDropdownVisible(true);
     setIsSrcDropdownVisible(false);
+    setDestHighlightedIndex(-1);
   }
 
   const handleSrcChange = (e) => {
     setSrc(e.target.value);
     setTempSrc(e.target.value);
+    setSrcHighlightedIndex(-1);
   };
 
   const handleDestChange = (e) => {
     setDest(e.target.value);
     setTempDest(e.target.value);
+    setDestHighlightedIndex(-1);
   };
 
   const handleSrcSelect = (item) => {
     setSrc(item);
     setTempSrc(item);
     setIsSrcDropdownVisible(false);
+    setSrcHighlightedIndex(-1);
   };
   const handleDestSelect = (item) => {
     setDest(item);
     setTempDest(item);
     setIsDestDropdownVisible(false);
+    setDestHighlightedIndex(-1);
   };
 
   const handleNext = () => {
@@ -109,6 +120,75 @@ function Hero() {
     }
   };
 
+  // Keyboard navigation handlers for Source dropdown
+  const handleSrcKeyDown = (e) => {
+    if (!isSrcDropdownVisible) return;
+
+    const filteredCities = city.filter(
+      (item) =>
+        item.toLowerCase().startsWith(src.toLowerCase()) &&
+        item !== dest
+    );
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setSrcHighlightedIndex((prev) =>
+        prev < filteredCities.length - 1 ? prev + 1 : 0
+      );
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setSrcHighlightedIndex((prev) =>
+        prev > 0 ? prev - 1 : filteredCities.length - 1
+      );
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      if (
+        srcHighlightedIndex >= 0 &&
+        srcHighlightedIndex < filteredCities.length
+      ) {
+        handleSrcSelect(filteredCities[srcHighlightedIndex]);
+      }
+    } else if (e.key === "Escape") {
+      setIsSrcDropdownVisible(false);
+      setSrcHighlightedIndex(-1);
+    }
+  };
+
+  // Keyboard navigation handlers for Destination dropdown
+  const handleDestKeyDown = (e) => {
+    if (!isDestDropdownVisible) return;
+
+    const filteredCities = city.filter(
+      (item) =>
+        item.toLowerCase().includes(dest.toLowerCase()) &&
+        item !== src
+    );
+
+    if (e.key === "ArrowDown") {
+      e.preventDefault();
+      setDestHighlightedIndex((prev) =>
+        prev < filteredCities.length - 1 ? prev + 1 : 0
+      );
+    } else if (e.key === "ArrowUp") {
+      e.preventDefault();
+      setDestHighlightedIndex((prev) =>
+        prev > 0 ? prev - 1 : filteredCities.length - 1
+      );
+    } else if (e.key === "Enter") {
+      e.preventDefault();
+      if (
+        destHighlightedIndex >= 0 &&
+        destHighlightedIndex < filteredCities.length
+      ) {
+        handleDestSelect(filteredCities[destHighlightedIndex]);
+      }
+    } else if (e.key === "Escape") {
+      setIsDestDropdownVisible(false);
+      setDestHighlightedIndex(-1);
+    }
+  };
+
+  // Close dropdowns if clicked outside
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -119,6 +199,7 @@ function Hero() {
       ) {
         setSrc("");
         setIsSrcDropdownVisible(false);
+        setSrcHighlightedIndex(-1);
       }
 
       if (
@@ -129,6 +210,7 @@ function Hero() {
       ) {
         setDest("");
         setIsDestDropdownVisible(false);
+        setDestHighlightedIndex(-1);
       }
     };
 
@@ -149,8 +231,8 @@ function Hero() {
     <section className="home">
       <div className="videoContainer">
         <video src={video2} muted autoPlay loop type="video/mp4"></video>
-        <div className="overlay"></div> {/* <-- Keep your original overlay */}
-        <div className="videoFade"></div> {/* <-- Add new fade for bottom */}
+        <div className="overlay"></div>
+        <div className="videoFade"></div>
       </div>
 
       <div className="homeContent container">
@@ -164,6 +246,7 @@ function Hero() {
         </div>
 
         <div data-aos="fade-up" className="cardDiv grid">
+          {/* Source Input */}
           <div className="destinationInput" style={{ position: "relative" }}>
             <label
               htmlFor="city"
@@ -180,61 +263,63 @@ function Hero() {
                 onClick={setSrcDropdown}
                 autoComplete="off"
                 ref={srcInputRef}
+                onKeyDown={handleSrcKeyDown}
               />
               <GrLocation className="icon" />
             </div>
 
-            {isSrcDropdownVisible &&
-              (src ?? "").trim() !== "" &&
-              (() => {
-                const filteredCities = city.filter(
-                  (item) =>
-                    item.toLowerCase().startsWith(src.toLowerCase()) &&
-                    item !== dest
-                );
-                return (
-                  <ul
-                    ref={srcDropdownRef}
-                    style={{
-                      listStyle: "none",
-                      color: "black",
-                      margin: 0,
-                      padding: "0",
-                      border: "1px solid #ccc",
-                      borderRadius: "5px",
-                      position: "absolute",
-                      backgroundColor: "white",
-                      zIndex: 100,
-                      borderTopLeftRadius: "0",
-                      borderTopRightRadius: "0",
-                      borderBottomLeftRadius: "10px",
-                      borderBottomRightRadius: "10px",
-                      top: "100%",
-                      left: "0",
-                      width: "100%",
-                      maxHeight: "150px",
-                      overflowY: "auto",
-                    }}
-                  >
-                    {filteredCities.map((item, index) => (
-                      <li
-                        key={index}
-                        onClick={() => handleSrcSelect(item)}
-                        style={{
-                          padding: "10px",
-                          cursor: "pointer",
-                          borderBottom:
-                            index < filteredCities.length - 1
-                              ? "1px solid #eee"
-                              : "none",
-                        }}
-                      >
-                        {item}
-                      </li>
-                    ))}
-                  </ul>
-                );
-              })()}
+            {isSrcDropdownVisible && (src ?? "").trim() !== "" && (() => {
+              const filteredCities = city.filter(
+                (item) =>
+                  item.toLowerCase().startsWith(src.toLowerCase()) &&
+                  item !== dest
+              );
+              return (
+                <ul
+                  ref={srcDropdownRef}
+                  style={{
+                    listStyle: "none",
+                    color: "black",
+                    margin: 0,
+                    padding: "0",
+                    border: "1px solid #ccc",
+                    borderRadius: "5px",
+                    position: "absolute",
+                    backgroundColor: "white",
+                    zIndex: 100,
+                    borderTopLeftRadius: "0",
+                    borderTopRightRadius: "0",
+                    borderBottomLeftRadius: "10px",
+                    borderBottomRightRadius: "10px",
+                    top: "100%",
+                    left: "0",
+                    width: "100%",
+                    maxHeight: "150px",
+                    overflowY: "auto",
+                  }}
+                >
+                  {filteredCities.map((item, index) => (
+                    <li
+                      key={index}
+                      onClick={() => handleSrcSelect(item)}
+                      onMouseEnter={() => setSrcHighlightedIndex(index)}
+                      style={{
+                        padding: "10px",
+                        cursor: "pointer",
+                        backgroundColor:
+                          index === srcHighlightedIndex ? "#bde4ff" : "white",
+                        borderBottom:
+                          index < filteredCities.length - 1
+                            ? "1px solid #eee"
+                            : "none",
+                      }}
+                    >
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              );
+            })()}
           </div>
 
           {/* Swap Button */}
@@ -251,11 +336,9 @@ function Hero() {
               justifyContent: "center",
               fontSize: "24px",
               color: "black",
-              cursor:"pointer"
+              cursor: "pointer",
             }}
             onClick={handleToggle}
-            //onMouseEnter={(e)=>e.currentTarget.style.backgroundColor="#87CEEB"}
-            //onMouseLeave={(e)=>e.currentTarget.style.backgroundColor="white"}
           >
             <span>
               <FontAwesomeIcon icon={faRightLeft} />
@@ -274,6 +357,7 @@ function Hero() {
                 onClick={setDestDropdown}
                 ref={destInputRef}
                 autoComplete="off"
+                onKeyDown={handleDestKeyDown}
               />
               <GrLocation className="icon" />
             </div>
@@ -308,9 +392,12 @@ function Hero() {
                     <li
                       key={index}
                       onClick={() => handleDestSelect(item)}
+                      onMouseEnter={() => setDestHighlightedIndex(index)}
                       style={{
                         padding: "10px",
                         cursor: "pointer",
+                        backgroundColor:
+                          index === destHighlightedIndex ? "#bde4ff" : "white",
                         borderBottom: "1px solid #eee",
                       }}
                     >
@@ -369,7 +456,6 @@ function Hero() {
             style={{
               opacity: isSearchActive ? 1 : 0.9,
               cursor: isSearchActive ? "pointer" : "not-allowed",
-              // pointerEvents: isSearchActive ? "auto" : "none",
             }}
           >
             <FaSearch className="icon" />
