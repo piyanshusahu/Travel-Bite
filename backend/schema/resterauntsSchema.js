@@ -3,6 +3,7 @@ const { Schema } = require("mongoose");
 const resterauntSchema = new Schema({
   name: String,
   address: String,
+  city: String,
   contact: Number,
   special: String,
   type: String,
