@@ -20,7 +20,10 @@ const Place=require("./models/placesModel");
 const { streetFoodModel } = require("./models/streetFoodModel");
 const nodemailer = require("nodemailer");
 
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:3000", // or your frontend domain
+  credentials: true
+}));
 app.use(bodyParser.json());
 app.use(express.json());
 app.use(cookieParser());
