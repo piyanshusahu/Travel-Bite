@@ -1,9 +1,7 @@
-
-
-body {
+/* body {
   background-color: #f3f4f6; 
   font-family: sans-serif;
-}
+} */
 
 .dialcontainer {
   max-width: 48rem; 
@@ -100,3 +98,24 @@ body {
   align-items: center;
   gap: 0.5rem;
 }
+.icons-with-text {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.amenity-item {
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+.icons-with-text > div {
+  margin-right: 10px;
+  margin-bottom: 8px;
+  display: inline-block;
+}
+
+
+
+

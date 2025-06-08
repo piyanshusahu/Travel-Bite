@@ -69,7 +69,6 @@ app.get("/getCities", async (req, res) => {
 });
 
 
-
 const transporter = nodemailer.createTransport({
   service: "gmail",
   auth: {

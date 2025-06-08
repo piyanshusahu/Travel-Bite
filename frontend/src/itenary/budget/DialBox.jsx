@@ -1,21 +1,48 @@
 import React from "react";
 import "./DialBox.css";
-/*import '@fortawesome/fontawesome-free/css/all.min.css';
- */
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  faSquareXmark,
+  faStar,
+  faWifi,
+  faSpa,
   faPhone,
   faLocationDot,
+  faUtensils,
+  faSwimmingPool,
+  faParking,
+  faSnowflake,
+  faDumbbell,
+  faBriefcase,
+  faMusic,
 } from "@fortawesome/free-solid-svg-icons";
 
-export default function DialBox({stayPlace}){
+const amenityIcons = {
+  WiFi: faWifi,
+  Spa: faSpa,
+  Restaurant: faUtensils,
+  // Pool: faSwimmingPool,
+  "Swimming Pool": faSwimmingPool,
+  "Fitness Center": faDumbbell,
+  Parking: faParking,
+  AC: faSnowflake,
+  "Fine Dining": faUtensils,
+  "Business Center": faBriefcase,
+  "Event Spaces": faMusic,
+};
+export default function DialBox({ stayPlace }) {
   let name = stayPlace.name;
   let address = stayPlace.address;
   let contact = stayPlace.contact;
   let city = stayPlace.city;
   let amenities = stayPlace.amenities;
+  let star = stayPlace.star;
 
+  const showMaps = () => {
+    const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
+      address
+    )}`;
+    window.open(mapUrl, "_blank");
+  };
   return (
     <div className="dialcontainer">
       <script src="https://cdn.tailwindcss.com"></script>
@@ -32,16 +59,14 @@ export default function DialBox({stayPlace}){
         />
       </div>
       <h2 className="title">
-        Taj Mahal Palace
+        {name}
         <span
           className="stars"
           style={{ marginLeft: "10px", color: "#FFD700" }}
         >
-          <i className="fas fa-star"></i>
-          <i className="fas fa-star"></i>
-          <i className="fas fa-star"></i>
-          <i className="fas fa-star"></i>
-          <i className="fas fa-star"></i>
+          {Array.from({ length: star }, (_, i) => (
+            <FontAwesomeIcon key={i} icon={faStar} />
+          ))}
         </span>
       </h2>
       <div className="rating-badge">
@@ -76,46 +101,47 @@ export default function DialBox({stayPlace}){
 
       <div>
         <div className="contact">
-          <FontAwesomeIcon icon={faPhone} />
-          {contact}
+          <FontAwesomeIcon icon={faPhone} style={{ marginRight: "2%" }} />
+          +91 {contact}
         </div>
-        <div className="address">
-          <FontAwesomeIcon icon={faLocationDot} />
-          {address}
+        <div className="address flex">
+          <FontAwesomeIcon
+            icon={faLocationDot}
+            style={{ marginRight: "2%", marginLeft: "0.5%" }}
+          />
+          <div
+            style={{ cursor: "pointer" }}
+            onMouseOver={(e) => {
+              e.target.style.color = "blue";
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.color = "black";
+            }}
+            onClick={showMaps}
+          >
+            {address}
+          </div>
         </div>
-        {amenities}
       </div>
       <hr className="divider" />
       <div className="characteristics">
         <h3 className="subtitle">Characteristics</h3>
-        <div className="icons-with-text">
-          <span>
-            <i className="fas fa-wifi" aria-hidden="true"></i> Wi-Fi
-          </span>
-          <span>
-            <i className="fas fa-desktop" aria-hidden="true"></i> TV
-          </span>
-          <span>
-            <i className="fas fa-snowflake" aria-hidden="true"></i> Air
-            Conditioning
-          </span>
-          <span>
-            <i className="fas fa-chair" aria-hidden="true"></i> Lounge Area
-          </span>
-          <span>
-            <i className="fas fa-mug-hot" aria-hidden="true"></i> Coffee
-          </span>
-          <span>
-            <i className="fas fa-paw" aria-hidden="true"></i> Pet Friendly
-          </span>
-          <span>
-            <i className="fas fa-wheelchair" aria-hidden="true"></i>{" "}
-            Accessibility
-          </span>
+        <div className="icons-with-text flex flex-wrap gap-3 mt-2">
+          {amenities?.map((el, idx) => (
+            <div key={idx} className="amenity-item">
+              {amenityIcons[el] && (
+                <>
+                  <FontAwesomeIcon
+                    icon={amenityIcons[el]}
+                    style={{ marginRight: "5px" }}
+                  />
+                </>
+              )}
+              {el}
+            </div>
+          ))}
         </div>
       </div>
-      <hr className="divider" />
     </div>
   );
-};
-
+}
