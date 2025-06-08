@@ -9,8 +9,9 @@ import { motion } from "framer-motion"; // Import motion
 import { styled } from "@mui/material/styles";
 import InputRadios from "./InputRadios";
 
+//hisdfghgfdsdfgfdsfdsdfg
 
-function BudgetPage() {
+function BudgetPage(){
   const location = useLocation();
   const navigate = useNavigate();
   const queryParams = new URLSearchParams(location.search);
