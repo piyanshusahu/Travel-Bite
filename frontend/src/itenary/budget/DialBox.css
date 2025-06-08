@@ -1,0 +1,102 @@
+
+
+body {
+  background-color: #f3f4f6; 
+  font-family: sans-serif;
+}
+
+.dialcontainer {
+  max-width: 48rem; 
+  margin: 2rem auto;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  top: 18px;
+  
+}
+
+.rating-badge {
+  position: relative;
+  width: 45%;
+  height:30px;
+  top: -4px;
+  right: 10px;
+  background: white;
+  padding: 6px 10px;
+  margin-left:9px;
+  border-radius: 6px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+  display: flex;
+  align-items: center;
+  font-size: 0.95rem;
+  z-index: 10;
+  
+}
+
+.rating-value {
+  font-weight: bold;
+  margin-right: 6px;
+  color: #111827; 
+}
+
+.rating-badge .stars {
+  display: flex;
+  gap: 2px;
+}
+
+.rating-count {
+  font-size: 0.85rem;
+}
+
+.image-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1.5rem;
+}
+
+.main-image {
+  max-width: 100%;
+  height: auto;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  margin-bottom: 0.75rem;
+}
+
+.description {
+  color: #1f2937; 
+  margin-bottom: 1rem;
+  line-height: 1.6;
+}
+
+.divider {
+  border: none;
+  border-top: 1px solid #d1d5db; 
+  margin: 1rem 0;
+}
+
+.characteristics {
+  margin-top: 1rem;
+}
+
+.subtitle {
+  font-weight: 800;
+  font-size: 1.125rem;
+  margin-bottom: 0.5rem;
+}
+
+.icons-with-text {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 2rem;
+  font-size: 1.1rem;
+  color: #374151; 
+}
+
+.icons-with-text span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
