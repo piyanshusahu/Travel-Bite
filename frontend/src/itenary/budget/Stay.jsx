@@ -5,8 +5,12 @@ import Slider from "@mui/material/Slider";
 import Carousel from "./Carousel";
 import Aos from "aos";
 import { useLocation, useNavigate } from "react-router-dom";
+import HotelCard from "./HotelCard";
+import BottomNav from "./BottomNav.js";
 
 function Stay() {
+
+
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const dest = queryParams.get("dest");
@@ -77,6 +81,7 @@ function Stay() {
       setIsDorm(false);
     }
   }, [hotel, hostel, dorm, isHotel, isHostel, isDorm]);
+
   return (
     <div className="budgetContainer" style={{marginTop:"3%"}}>
       <div
@@ -123,6 +128,8 @@ function Stay() {
         <ItemCard img={"./media/images/dorm.png"} onClick={handleDorm} />
       </div>
       <div className="allStay">
+        <BottomNav/>
+        
         {isHotel && <Carousel places={hotel} />}
         {isHostel && <Carousel places={hostel} />}
         {isDorm && <Carousel places={dorm} />}

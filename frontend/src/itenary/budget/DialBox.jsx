@@ -29,6 +29,7 @@ const amenityIcons = {
   "Business Center": faBriefcase,
   "Event Spaces": faMusic,
 };
+
 export default function DialBox({ stayPlace }) {
   let name = stayPlace.name;
   let address = stayPlace.address;
@@ -43,6 +44,7 @@ export default function DialBox({ stayPlace }) {
     )}`;
     window.open(mapUrl, "_blank");
   };
+
   return (
     <div className="dialcontainer">
       <script src="https://cdn.tailwindcss.com"></script>

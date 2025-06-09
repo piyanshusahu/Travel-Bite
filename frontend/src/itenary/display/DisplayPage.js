@@ -47,7 +47,7 @@ function DisplayPage() {
       .catch((error) => console.error("Error fetching data:", error));
   }, [dest, days]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     Aos.init({ duration: 2000 });
 
     fetch("http://localhost:3002/getResteraunts")
@@ -64,7 +64,7 @@ function DisplayPage() {
       })
       .catch((error) => console.error("Error fetching data:", error));
   }, [dest, days]);
-
+*/
   return (
     <>
       <div className="itenary">
