@@ -21,6 +21,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function ShowDetails({ stayPlace }) {
+  let id=stayPlace.id;
   let name = stayPlace.name;
   let address = stayPlace.address;
   let contact = stayPlace.contact;
@@ -28,6 +29,7 @@ export default function ShowDetails({ stayPlace }) {
   let amenities = stayPlace.amenities;
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState("paper");
+  const [h_id,setH_Id]=React.useState("");
 
   const handleClickOpen = (scrollType) => () => {
     setOpen(true);
@@ -48,12 +50,17 @@ export default function ShowDetails({ stayPlace }) {
     }
   }, [open]);
 
+  function handleHotelSelection(id){
+    setH_Id(id);
+    handleClose();
+  }
+
   return (
     <React.Fragment>
       <Button variant="contained" onClick={handleClickOpen("paper")}>
         Open Scrollable Dialog
       </Button>
-
+      
       <Dialog
         open={open}
         onClose={handleClose}
@@ -63,8 +70,9 @@ export default function ShowDetails({ stayPlace }) {
         aria-describedby="scroll-dialog-description"
         PaperProps={{
           style: {
-            width: "100%",
-            height: "100%",
+            width: "55vw", // 90% of viewport width
+            maxWidth: "70vw", // Disable MUI's default maxWidth
+            height: "100vh", // Optional: 90% of viewport height
           },
         }}
       >
@@ -72,26 +80,27 @@ export default function ShowDetails({ stayPlace }) {
           <Button onClick={handleClose} style={{ color: "black" }}>
             &lt; Go Back
           </Button>
+          <div style={{color:"black"}}>{id}</div>
         </div>
         <DialBox stayPlace={stayPlace} />
 
         <div className="row">
           <div className="col"></div>
-          <div style={{display:"flex",justifyContent:"center"}}>
-              <Button
-                onClick={handleClose}
-                style={{ transition: "all ease-in 0.2s" }}
-                onMouseOver={(e) => {
-                  e.target.style.backgroundColor = "blue";
-                  e.target.style.color = "white";
-                }}
-                onMouseLeave={(e) => {
-                  e.target.style.backgroundColor = "white";
-                  e.target.style.color = "blue";
-                }}
-              >
-                Select
-              </Button>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Button
+              onClick={()=>handleHotelSelection({name})}
+              style={{ transition: "all ease-in 0.2s" }}
+              onMouseOver={(e) => {
+                e.target.style.backgroundColor = "blue";
+                e.target.style.color = "white";
+              }}
+              onMouseLeave={(e) => {
+                e.target.style.backgroundColor = "white";
+                e.target.style.color = "blue";
+              }}
+            >
+              Select
+            </Button>
           </div>
         </div>
       </Dialog>

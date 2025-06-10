@@ -23,41 +23,44 @@ import ResetPassword from "./landing_page/home/ResetPassword.js";
 import Profile from "./landing_page/signup/profile.js";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
+import { ThemeProvider, createTheme } from "@mui/material/styles";  // <-- added MUI imports
+
 const CLIENT_ID =
   "891259342392-4qqvjre6s72nuj0jsr4bo2vilfauq8e0.apps.googleusercontent.com";
 
+const theme = createTheme(); // <-- create default MUI theme (customize if needed)
+
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <AuthProvider>
-    <GoogleOAuthProvider clientId={CLIENT_ID}>
-      <BrowserRouter>
-        <div id="app-content">
-          {" "}
-          {/* Added a wrapper div */}
-          <Navbar />
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/about" element={<About />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/categories" element={<Categories />} />
-            <Route path="/community" element={<CommunityPage />} />
-            <Route path="/signup" element={<Signup />} />
-            <Route path="/budget" element={<Budget />} />
-            <Route path="/summer" element={<Summer />} />
-            <Route path="/winter" element={<Winter />} />
-            <Route path="/spring" element={<Spring />} />
-            <Route path="/autumn" element={<Autumn />} />
-            <Route path="/monsoon" element={<Monsoon />} />
-            <Route path="/display" element={<DisplayPage />} />
-            <Route path="/forgot-password" element={<ForgotPassword />} />
-            <Route path="/reset-password/:token" element={<ResetPassword />} />
-            <Route path="/profile/:userID" element={<Profile />} />
-            <Route path="/itenary" element={<DisplayPage />} />
-          </Routes>
-          <Footer />
-        </div>{" "}
-        {/* Added a wrapper div */}
-      </BrowserRouter>
-    </GoogleOAuthProvider>
-  </AuthProvider>
+  <ThemeProvider theme={theme}> {/* Wrap with ThemeProvider */}
+    <AuthProvider>
+      <GoogleOAuthProvider clientId={CLIENT_ID}>
+        <BrowserRouter>
+          <div id="app-content">
+            <Navbar />
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/categories" element={<Categories />} />
+              <Route path="/community" element={<CommunityPage />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route path="/budget" element={<Budget />} />
+              <Route path="/summer" element={<Summer />} />
+              <Route path="/winter" element={<Winter />} />
+              <Route path="/spring" element={<Spring />} />
+              <Route path="/autumn" element={<Autumn />} />
+              <Route path="/monsoon" element={<Monsoon />} />
+              <Route path="/display" element={<DisplayPage />} />
+              <Route path="/forgot-password" element={<ForgotPassword />} />
+              <Route path="/reset-password/:token" element={<ResetPassword />} />
+              <Route path="/profile/:userID" element={<Profile />} />
+              <Route path="/itenary" element={<DisplayPage />} />
+            </Routes>
+            <Footer />
+          </div>
+        </BrowserRouter>
+      </GoogleOAuthProvider>
+    </AuthProvider>
+  </ThemeProvider>
 );

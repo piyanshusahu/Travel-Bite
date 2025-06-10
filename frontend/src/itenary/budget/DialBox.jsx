@@ -14,6 +14,7 @@ import {
   faDumbbell,
   faBriefcase,
   faMusic,
+  faStarHalf,
 } from "@fortawesome/free-solid-svg-icons";
 
 const amenityIcons = {
@@ -37,6 +38,7 @@ export default function DialBox({ stayPlace }) {
   let city = stayPlace.city;
   let amenities = stayPlace.amenities;
   let star = stayPlace.star;
+  let rating = stayPlace.rating;
 
   const showMaps = () => {
     const mapUrl = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
@@ -67,24 +69,38 @@ export default function DialBox({ stayPlace }) {
           style={{ marginLeft: "10px", color: "#FFD700" }}
         >
           {Array.from({ length: star }, (_, i) => (
-            <FontAwesomeIcon key={i} icon={faStar} />
+            <FontAwesomeIcon
+              key={i}
+              icon={faStar}
+              style={{ fontSize: "0.8rem", color: "#FFD700" }}
+            />
           ))}
         </span>
       </h2>
       <div className="rating-badge">
         <span className="rating-value">4.7</span>
-        <span className="stars" style={{ color: "#FFD700" }}>
-          <i className="fas fa-star"></i>
-          <i className="fas fa-star"></i>
-          <i className="fas fa-star"></i>
-          <i className="fas fa-star"></i>
-          <i className="fas fa-star-half-alt"></i>
-        </span>
-        <span
-          className="rating-count"
-          style={{ color: "#4B5563", marginLeft: "4px" }}
-        >
-          (1,044)
+        <span className="stars" style={{ color: "#FFD700" }}></span>
+        <span style={{ color: "#FFD700" }}>
+          {Array.from({ length: Math.floor(rating) }, (_, i) => (
+            <FontAwesomeIcon
+              key={i}
+              icon={faStar}
+              style={{ fontSize: "0.8rem", marginRight: "2px" }}
+            />
+          ))}
+
+          {rating % 1 !== 0 ? (
+            <FontAwesomeIcon
+              icon={faStarHalf}
+              style={{ fontSize: "0.8rem", marginRight: "2px" }}
+            />
+          ) : null}
+
+          <span
+            style={{ color: "#4B5563", marginLeft: "6px", fontSize: "0.8rem" }}
+          >
+            (1,044)
+          </span>
         </span>
       </div>
 
@@ -130,12 +146,16 @@ export default function DialBox({ stayPlace }) {
         <h3 className="subtitle">Characteristics</h3>
         <div className="icons-with-text flex flex-wrap gap-3 mt-2">
           {amenities?.map((el, idx) => (
-            <div key={idx} className="amenity-item">
+            <div
+              key={idx}
+              className="amenity-item"
+              style={{ marginRight: "5%" }}
+            >
               {amenityIcons[el] && (
                 <>
                   <FontAwesomeIcon
                     icon={amenityIcons[el]}
-                    style={{ marginRight: "5px" }}
+                    style={{ marginLeft: "5px", marginRight: "5px" }}
                   />
                 </>
               )}

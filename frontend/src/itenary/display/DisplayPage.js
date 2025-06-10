@@ -47,24 +47,24 @@ function DisplayPage() {
       .catch((error) => console.error("Error fetching data:", error));
   }, [dest, days]);
 
-  /*useEffect(() => {
-    Aos.init({ duration: 2000 });
+  // useEffect(() => {
+  //   Aos.init({ duration: 2000 });
 
-    fetch("http://localhost:3002/getResteraunts")
-      .then((response) => response.json())
-      .then((data) => {
-        const filteredPlaces = data.filter((resteraunt) => resteraunt.city === dest);
+  //   fetch("http://localhost:3002/getResteraunts")
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       const filteredPlaces = data.filter((resteraunt) => resteraunt.city === dest);
 
-        const placesPerDay = 3;
-        const chunkedPlaces = Array.from({ length: days }, (_, dayIndex) =>
-          filteredPlaces.slice(dayIndex * placesPerDay, (dayIndex + 1) * placesPerDay)
-        );
+  //       const placesPerDay = 3;
+  //       const chunkedPlaces = Array.from({ length: days }, (_, dayIndex) =>
+  //         filteredPlaces.slice(dayIndex * placesPerDay, (dayIndex + 1) * placesPerDay)
+  //       );
 
-        setResteraunt(chunkedPlaces);
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-  }, [dest, days]);
-*/
+  //       setResteraunt(chunkedPlaces);
+  //     })
+  //     .catch((error) => console.error("Error fetching data:", error));
+  // }, [dest, days]);
+
   return (
     <>
       <div className="itenary">

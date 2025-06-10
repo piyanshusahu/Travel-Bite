@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import axios from "axios";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import InputAdornment from "@mui/material/InputAdornment";
-import EmailIcon from "@mui/icons-material/Email";
+import {EmailIcon} from "@mui/icons-material/Email";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -45,7 +47,7 @@ const ForgotPassword = () => {
         </h2>
         <p
           className="text-gray-600 text-center mb-5"
-          style={{ fontFamily: "italics" }}
+          style={{ fontFamily: "italic" }}
         >
           Enter your email to get a reset link
         </p>
@@ -78,7 +80,7 @@ const ForgotPassword = () => {
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
-                    <EmailIcon color="action" />
+                    <FontAwesomeIcon icon={faEnvelope} color="action" />
                   </InputAdornment>
                 ),
               }}

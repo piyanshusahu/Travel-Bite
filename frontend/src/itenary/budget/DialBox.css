@@ -67,6 +67,8 @@
   color: #1f2937; 
   margin-bottom: 1rem;
   line-height: 1.6;
+  font-family: cursive;
+  padding-bottom: 1rem;
 }
 
 .divider {
@@ -115,7 +117,6 @@
   margin-bottom: 8px;
   display: inline-block;
 }
-
 
 
 
