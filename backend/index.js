@@ -18,6 +18,7 @@ const Dormitory=require("./models/Dormitory");
 const carRentals=require("./models/CarRentals");
 const Place=require("./models/placesModel");
 //const { restaurantsModel } = require("./models/restaurantModel");
+
 const { streetFoodModel } = require("./models/streetFoodModel");
 const nodemailer = require("nodemailer");
 
@@ -160,16 +161,16 @@ app.get("/getPlaces", async (req, res) => {
 });
 
 
-/*app.get("/getRestaurants", async (req, res) => {
-  try {
-    const rest = await restaurantsModel.find();
-    res.json(rest);
-  } catch (error) {
-    console.error("Error fetching restaurants:", error);
-    res.status(500).json({ message: "Server Error" });
-  }
+// app.get("/getRestaurants", async (req, res) => {
+//   try {
+//     const rest = await restaurantsModel.find();
+//     res.json(rest);
+//   } catch (error) {
+//     console.error("Error fetching restaurants:", error);
+//     res.status(500).json({ message: "Server Error" });
+//   }
     
-});
-*/
+// });
+// 
 
 

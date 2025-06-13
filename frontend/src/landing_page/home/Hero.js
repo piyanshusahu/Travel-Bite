@@ -30,6 +30,8 @@ function Hero() {
   const destInputRef = useRef(null);
   const srcDropdownRef = useRef(null);
   const destDropdownRef = useRef(null);
+  const srcItemRefs = useRef([]);
+  const destItemRefs = useRef([]);
 
   const [isSearchActive, setIsSearchActive] = useState(false);
 
@@ -48,6 +50,26 @@ function Hero() {
       })
       .catch((error) => console.error("Error fetching data:", error));
   }, []);
+  useEffect(() => {
+    if (srcHighlightedIndex >= 0 && srcItemRefs.current[srcHighlightedIndex]) {
+      srcItemRefs.current[srcHighlightedIndex].scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+      });
+    }
+  }, [srcHighlightedIndex]);
+
+  useEffect(() => {
+    if (
+      destHighlightedIndex >= 0 &&
+      destItemRefs.current[destHighlightedIndex]
+    ) {
+      destItemRefs.current[destHighlightedIndex].scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+      });
+    }
+  }, [destHighlightedIndex]);
 
   useEffect(() => {
     setIsSearchActive(
@@ -126,8 +148,7 @@ function Hero() {
 
     const filteredCities = city.filter(
       (item) =>
-        item.toLowerCase().startsWith(src.toLowerCase()) &&
-        item !== dest
+        item.toLowerCase().startsWith(src.toLowerCase()) && item !== dest
     );
 
     if (e.key === "ArrowDown") {
@@ -148,9 +169,6 @@ function Hero() {
       ) {
         handleSrcSelect(filteredCities[srcHighlightedIndex]);
       }
-    } else if (e.key === "Escape") {
-      setIsSrcDropdownVisible(false);
-      setSrcHighlightedIndex(-1);
     }
   };
 
@@ -159,9 +177,7 @@ function Hero() {
     if (!isDestDropdownVisible) return;
 
     const filteredCities = city.filter(
-      (item) =>
-        item.toLowerCase().includes(dest.toLowerCase()) &&
-        item !== src
+      (item) => item.toLowerCase().includes(dest.toLowerCase()) && item !== src
     );
 
     if (e.key === "ArrowDown") {
@@ -268,58 +284,64 @@ function Hero() {
               <GrLocation className="icon" />
             </div>
 
-            {isSrcDropdownVisible && (src ?? "").trim() !== "" && (() => {
-              const filteredCities = city.filter(
-                (item) =>
-                  item.toLowerCase().startsWith(src.toLowerCase()) &&
-                  item !== dest
-              );
-              return (
-                <ul
-                  ref={srcDropdownRef}
-                  style={{
-                    listStyle: "none",
-                    color: "black",
-                    margin: 0,
-                    padding: "0",
-                    border: "1px solid #ccc",
-                    borderRadius: "5px",
-                    position: "absolute",
-                    backgroundColor: "white",
-                    zIndex: 100,
-                    borderTopLeftRadius: "0",
-                    borderTopRightRadius: "0",
-                    borderBottomLeftRadius: "10px",
-                    borderBottomRightRadius: "10px",
-                    top: "100%",
-                    left: "0",
-                    width: "100%",
-                    maxHeight: "150px",
-                    overflowY: "auto",
-                  }}
-                >
-                  {filteredCities.map((item, index) => (
-                    <li
-                      key={index}
-                      onClick={() => handleSrcSelect(item)}
-                      onMouseEnter={() => setSrcHighlightedIndex(index)}
-                      style={{
-                        padding: "10px",
-                        cursor: "pointer",
-                        backgroundColor:
-                          index === srcHighlightedIndex ? "#bde4ff" : "white",
-                        borderBottom:
-                          index < filteredCities.length - 1
-                            ? "1px solid #eee"
-                            : "none",
-                      }}
-                    >
-                      {item}
-                    </li>
-                  ))}
-                </ul>
-              );
-            })()}
+            {isSrcDropdownVisible &&
+              (src ?? "").trim() !== "" &&
+              (() => {
+                const filteredCities = city.filter(
+                  (item) =>
+                    item.toLowerCase().startsWith(src.toLowerCase()) &&
+                    item !== dest
+                );
+
+                srcItemRefs.current = []; // Reset refs
+
+                return (
+                  <ul
+                    ref={srcDropdownRef}
+                    style={{
+                      listStyle: "none",
+                      color: "black",
+                      margin: 0,
+                      padding: "0",
+                      border: "1px solid #ccc",
+                      borderRadius: "5px",
+                      position: "absolute",
+                      backgroundColor: "white",
+                      zIndex: 100,
+                      borderTopLeftRadius: "0",
+                      borderTopRightRadius: "0",
+                      borderBottomLeftRadius: "10px",
+                      borderBottomRightRadius: "10px",
+                      top: "100%",
+                      left: "0",
+                      width: "100%",
+                      maxHeight: "150px",
+                      overflowY: "auto",
+                    }}
+                  >
+                    {filteredCities.map((item, index) => (
+                      <li
+                        key={index}
+                        ref={(el) => (srcItemRefs.current[index] = el)}
+                        onClick={() => handleSrcSelect(item)}
+                        onMouseEnter={() => setSrcHighlightedIndex(index)}
+                        style={{
+                          padding: "10px",
+                          cursor: "pointer",
+                          backgroundColor:
+                            index === srcHighlightedIndex ? "#bde4ff" : "white",
+                          borderBottom:
+                            index < filteredCities.length - 1
+                              ? "1px solid #eee"
+                              : "none",
+                        }}
+                      >
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                );
+              })()}
           </div>
 
           {/* Swap Button */}
@@ -362,50 +384,59 @@ function Hero() {
               <GrLocation className="icon" />
             </div>
 
-            {isDestDropdownVisible && (dest ?? "").trim() !== "" && (
-              <ul
-                ref={destDropdownRef}
-                style={{
-                  listStyle: "none",
-                  color: "black",
-                  margin: 0,
-                  padding: "0",
-                  border: "1px solid #ccc",
-                  borderRadius: "5px",
-                  position: "absolute",
-                  backgroundColor: "white",
-                  zIndex: 100,
-                  top: "calc(100% - 1px)",
-                  left: 0,
-                  width: "100%",
-                  maxHeight: "150px",
-                  overflowY: "auto",
-                }}
-              >
-                {city
-                  .filter(
-                    (item) =>
-                      item.toLowerCase().includes(dest.toLowerCase()) &&
-                      item !== src
-                  )
-                  .map((item, index) => (
-                    <li
-                      key={index}
-                      onClick={() => handleDestSelect(item)}
-                      onMouseEnter={() => setDestHighlightedIndex(index)}
-                      style={{
-                        padding: "10px",
-                        cursor: "pointer",
-                        backgroundColor:
-                          index === destHighlightedIndex ? "#bde4ff" : "white",
-                        borderBottom: "1px solid #eee",
-                      }}
-                    >
-                      {item}
-                    </li>
-                  ))}
-              </ul>
-            )}
+            {isDestDropdownVisible &&
+              (dest ?? "").trim() !== "" &&
+              (() => {
+                const filteredCities = city.filter(
+                  (item) =>
+                    item.toLowerCase().includes(dest.toLowerCase()) &&
+                    item !== src
+                );
+
+                destItemRefs.current = []; // Reset refs
+
+                return (
+                  <ul
+                    ref={destDropdownRef}
+                    style={{
+                      listStyle: "none",
+                      color: "black",
+                      margin: 0,
+                      padding: "0",
+                      border: "1px solid #ccc",
+                      borderRadius: "5px",
+                      position: "absolute",
+                      backgroundColor: "white",
+                      zIndex: 100,
+                      top: "calc(100% - 1px)",
+                      left: 0,
+                      width: "100%",
+                      maxHeight: "150px",
+                      overflowY: "auto",
+                    }}
+                  >
+                    {filteredCities.map((item, index) => (
+                      <li
+                        key={index}
+                        ref={(el) => (destItemRefs.current[index] = el)}
+                        onClick={() => handleDestSelect(item)}
+                        onMouseEnter={() => setDestHighlightedIndex(index)}
+                        style={{
+                          padding: "10px",
+                          cursor: "pointer",
+                          backgroundColor:
+                            index === destHighlightedIndex
+                              ? "#bde4ff"
+                              : "white",
+                          borderBottom: "1px solid #eee",
+                        }}
+                      >
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                );
+              })()}
           </div>
 
           {/* Travellers Input */}
