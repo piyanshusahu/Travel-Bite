@@ -1,5 +1,6 @@
 import * as React from 'react';
 import './HotelCard.css';
+import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
 
 import { FaStar } from 'react-icons/fa';
 import {
@@ -58,7 +59,11 @@ export default function HotelCard (){
 
   return (
     
-    <div className="hotel-card">
+    <div   className="hotel-card clickable-card"
+           onClick={handleClickOpen("paper")}
+           role="button"
+           tabIndex="0"
+           onKeyDown={(e) => (e.key === 'Enter' || e.key === ' ') && alert("More details coming soon!")}>
         <script src="https://cdn.tailwindcss.com"></script>
       <link
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
@@ -114,25 +119,37 @@ export default function HotelCard (){
             <FaWheelchair />
           </div>
 
-          <div className="promo-bar">
+          {/*  
+            <div className="promo-bar">
             <span className="promo-check">✔</span>
              Special Offer Ending Today!
-          </div>
+            </div>
+          */}
+          
         </div>
       </div>
 
       <div className="hotel-sidebar">
         <div className="hotel-price">
-          <p className="discount-price">₹1,624</p>
+          
+          <p className="discount-price">₹1,624
+      </p>
+
          
           {/* <p className="original-price">$1,804.44</p> */}
         </div>
+         
+ 
         
-        <button className="select-button" variant="contained" onClick={handleClickOpen("paper")}>
+        <button className="select-button" variant="contained"   onClick={(e) => {
+    e.stopPropagation(); // Prevent triggering hotel-card click
+    alert("More details coming soon!");
+  }}>
             SELECT
             </button>
       </div>
     </div>
+    
   );
 };
 

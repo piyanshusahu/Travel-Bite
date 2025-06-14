@@ -1,10 +1,10 @@
 import * as React from 'react'; 
 import List from '@mui/material/List';
 import ListSubheader from '@mui/material/ListSubheader';
-import HotelCard from './HotelCard.jsx'; // adjust the path if needed
+import HotelCard from './HotelCard.jsx'; 
 import Box from '@mui/material/Box';
 
-// Mock data (simulate database)
+// Mock data 
 const hotelData = [
   {
     name: 'Taj Mahal Palace',
@@ -36,31 +36,78 @@ const hotelData = [
     rating: 4.6,
     reviews: 865,
   },
+  {
+    name: 'The Oberoi',
+    image: '/media/images/hotp.webp',
+    price: 1980,
+    stars: 4,
+    amenities: ['wifi', 'tv', 'ac', 'spa'],
+    description: 'Luxury and elegance in the heart of the city...',
+    rating: 4.6,
+    reviews: 865,
+  },
+  {
+    name: 'The Oberoi',
+    image: '/media/images/hotp.webp',
+    price: 1980,
+    stars: 4,
+    amenities: ['wifi', 'tv', 'ac', 'spa'],
+    description: 'Luxury and elegance in the heart of the city...',
+    rating: 4.6,
+    reviews: 865,
+  },
+  {
+    name: 'The Oberoi',
+    image: '/media/images/hotp.webp',
+    price: 1980,
+    stars: 4,
+    amenities: ['wifi', 'tv', 'ac', 'spa'],
+    description: 'Luxury and elegance in the heart of the city...',
+    rating: 4.6,
+    reviews: 865,
+  },
  
 ];
 
 export default function PinnedSubheaderList() {
   return (
-  <Box sx={{ padding: 2 }}>
+  <Box sx={{ padding: 2 }} >
   <List
-    sx={{
-      borderRadius: '16px',
-      boxShadow: 3,
-      overflow: 'auto',
-      maxHeight: '100vh',
-      bgcolor: 'background.paper',
-    }}
-    subheader={<li />}
-  >
-      <li>
-        <ul style={{ listStyle: 'none', padding: 0 }}>
-          
-          {hotelData.map((hotel, index) => (
-            <HotelCard key={index} stayPlace={hotel} />
-          ))}
-        </ul>
-      </li>
-    </List>
+  sx={{
+    borderRadius: '16px',
+    overflowY: 'auto',
+    maxHeight: '108vh', 
+    bgcolor: 'transparent',
+    scrollSnapType: 'y mandatory',
+    scrollBehavior: 'smooth',
+    marginTop:'20px',
+    pt: '20px',
+
+       // Hide scrollbar
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
+    '-ms-overflow-style': 'none',  
+    'scrollbar-width': 'none',     
+
+  }} 
+  
+>
+  {hotelData.map((hotel, index) => (
+    <li
+      key={index}
+      style={{
+        listStyle: 'none',
+        scrollSnapAlign: 'start',
+        height: '250px',
+        marginBottom: '20px', //  spacing
+        marginTop: index === 0 ? '16px' : '0px',
+      }}
+    >
+      <HotelCard stayPlace={hotel} />
+    </li>
+  ))}
+</List>
     </Box>
   );
 }

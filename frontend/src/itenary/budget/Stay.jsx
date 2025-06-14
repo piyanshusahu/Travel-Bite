@@ -130,6 +130,7 @@ function Stay() {
       <div className="allStay">
         <BottomNav/>
         
+        
         {isHotel && <Carousel places={hotel} />}
         {isHostel && <Carousel places={hostel} />}
         {isDorm && <Carousel places={dorm} />}

@@ -8,7 +8,7 @@
     font-size: 1.2rem;
     
     top: 0;
-    z-index: 999;
+    z-index: 999; 
     
   }
   .navbar.active{
@@ -167,22 +167,25 @@
   }
    */
 
-   .navbar {
-    background-color: black;
-    /* background: transparent; */
-    height: 80px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 1.2rem;
-    /* position: sticky; */
-    top: 0;
-    z-index: 999;
-    /* margin-top:-80px; */
+   /* Transparent navbar (home page) */
+.navbar {
+  position: relative;        /* stays fixed at top */
+  top: 0px;                 /* position starts from top */
+  width: 100%;          
+  z-index: 999;           
+  background-color: transparent;
+  transition: background-color 0.4s ease;
+  margin-top: -95px;
+  
 }
 
 .navbar.active {
-    background: linear-gradient(90deg, rgb(28, 27, 27) 0%, rgb(26, 23, 23) 100%);
+  background-color: rgba(0, 0, 0, 0.85); /* black background on other pages */
+  color: white;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  position:relative;
+  
 }
 
 .navbar-container {
