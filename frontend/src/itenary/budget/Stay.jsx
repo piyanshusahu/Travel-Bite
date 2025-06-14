@@ -125,6 +125,10 @@ function Stay() {
         <ItemCard img={"./media/images/dorm.png"} onClick={handleDorm} />
       </div>
       <div className="allStay">
+        <BottomNav/>
+        
+        
+        {isHotel && <Carousel places={hotel} />}
         {/* <BottomNav /> */}
 
         {isHotel && <BottomNav stayPlace={hotel} />}
