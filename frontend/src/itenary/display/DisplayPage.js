@@ -31,43 +31,65 @@ function DisplayPage() {
 
   useEffect(() => {
     Aos.init({ duration: 2000 });
-
+  
     fetch("http://localhost:3002/getPlaces")
       .then((response) => response.json())
       .then((data) => {
         const filteredPlaces = data.filter((place) => place.city === dest);
+  
+        // Convert to 24-hour and sort
+        const convertToMinutes = (timeStr) => {
+          if (!timeStr || typeof timeStr !== "string") return -1;
+  
+          timeStr = timeStr.trim();
+          if (timeStr.toLowerCase().includes("open 24 hours")) return 0;
+  
+          const [time, modifier] = timeStr.split(" ");
+          if (!time || !modifier) return -1;
+  
+          let [hours, minutes] = time.split(":").map(Number);
+          if (modifier === "PM" && hours !== 12) hours += 12;
+          if (modifier === "AM" && hours === 12) hours = 0;
+  
+          return hours * 60 + minutes;
+        };
+  
+        const sortedPlaces = [...filteredPlaces].sort((a, b) => {
 
+          if(a.pincode!==b.pincode){
+            return a.pincode-b.pincode;
+          }
+          
+          const [aOpen, aClose] = a.timings?.split("–") || ["", ""];
+          const [bOpen, bClose] = b.timings?.split("–") || ["", ""];
+  
+          const aCloseTime = aClose ? convertToMinutes(aClose.trim()) : 1439;
+          const bCloseTime = bClose ? convertToMinutes(bClose.trim()) : 1439;
+  
+          if (aCloseTime !== bCloseTime) {
+            return aCloseTime - bCloseTime;
+          }
+  
+          const aOpenTime = aOpen ? convertToMinutes(aOpen.trim()) : 0;
+          const bOpenTime = bOpen ? convertToMinutes(bOpen.trim()) : 0;
+  
+          return aOpenTime - bOpenTime;
+        });
+  
         const placesPerDay = 3;
         const chunkedPlaces = Array.from({ length: days }, (_, dayIndex) =>
-          filteredPlaces.slice(dayIndex * placesPerDay, (dayIndex + 1) * placesPerDay)
+          sortedPlaces.slice(dayIndex * placesPerDay, (dayIndex + 1) * placesPerDay)
         );
-
+  
         setPlace(chunkedPlaces);
       })
       .catch((error) => console.error("Error fetching data:", error));
   }, [dest, days]);
-
-  // useEffect(() => {
-  //   Aos.init({ duration: 2000 });
-
-  //   fetch("http://localhost:3002/getResteraunts")
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       const filteredPlaces = data.filter((resteraunt) => resteraunt.city === dest);
-
-  //       const placesPerDay = 3;
-  //       const chunkedPlaces = Array.from({ length: days }, (_, dayIndex) =>
-  //         filteredPlaces.slice(dayIndex * placesPerDay, (dayIndex + 1) * placesPerDay)
-  //       );
-
-  //       setResteraunt(chunkedPlaces);
-  //     })
-  //     .catch((error) => console.error("Error fetching data:", error));
-  // }, [dest, days]);
-
+  
   return (
     <>
       <div className="itenary">
+      {console.log(place)}
         <div className="heading">
           <h1
             style={{
@@ -126,7 +148,7 @@ function DisplayPage() {
                 className="day-item"
               >
                 Day {dayIndex + 1}:
-                {placesForDay.length > 0
+                {placesForDay.length > 1
                   ? placesForDay.map((p) => p.name).join(", ")
                   : "No places"}
               </li>

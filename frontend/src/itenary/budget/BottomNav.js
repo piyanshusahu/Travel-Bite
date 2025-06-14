@@ -69,7 +69,7 @@ const hotelData = [
  
 ];
 
-export default function PinnedSubheaderList() {
+export default function PinnedSubheaderList({stayPlace}) {
   return (
   <Box sx={{ padding: 2 }} >
   <List

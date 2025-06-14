@@ -46,6 +46,7 @@ function Hero() {
       .then((response) => response.json())
       .then((data) => {
         const cityNames = data.map((city) => city.name);
+        cityNames.sort();
         setCity(cityNames);
       })
       .catch((error) => console.error("Error fetching data:", error));

@@ -21,15 +21,18 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function ShowDetails({ stayPlace }) {
-  let id=stayPlace.id;
+  let id = stayPlace.id;
   let name = stayPlace.name;
   let address = stayPlace.address;
   let contact = stayPlace.contact;
   let city = stayPlace.city;
   let amenities = stayPlace.amenities;
+
+
+
   const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState("paper");
-  const [h_id,setH_Id]=React.useState("");
+  const [h_id, setH_Id] = React.useState("");
 
   const handleClickOpen = (scrollType) => () => {
     setOpen(true);
@@ -50,19 +53,15 @@ export default function ShowDetails({ stayPlace }) {
     }
   }, [open]);
 
-  function handleHotelSelection(id){
+  function handleHotelSelection(id) {
     setH_Id(id);
     handleClose();
   }
 
   return (
     <React.Fragment>
-      <Button variant="contained" onClick={handleClickOpen("paper")}>
-        Open Scrollable Dialog
-      </Button>
-      
       <Dialog
-        open={open}
+        open="paper"
         onClose={handleClose}
         scroll={scroll}
         TransitionComponent={Transition}
@@ -80,7 +79,7 @@ export default function ShowDetails({ stayPlace }) {
           <Button onClick={handleClose} style={{ color: "black" }}>
             &lt; Go Back
           </Button>
-          <div style={{color:"black"}}>{id}</div>
+          <div style={{ color: "black" }}>{id}</div>
         </div>
         <DialBox stayPlace={stayPlace} />
 
@@ -88,7 +87,7 @@ export default function ShowDetails({ stayPlace }) {
           <div className="col"></div>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Button
-              onClick={()=>handleHotelSelection({name})}
+              onClick={() => handleHotelSelection({ name })}
               style={{ transition: "all ease-in 0.2s" }}
               onMouseOver={(e) => {
                 e.target.style.backgroundColor = "blue";
