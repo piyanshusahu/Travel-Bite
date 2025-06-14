@@ -9,8 +9,6 @@ import HotelCard from "./HotelCard";
 import BottomNav from "./BottomNav.js";
 
 function Stay() {
-
-
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
   const dest = queryParams.get("dest");
@@ -23,7 +21,7 @@ function Stay() {
   const [hostel, setHostel] = useState([]);
   const [dorm, setDorm] = useState([]);
 
-  const[showLabel,setLabel]=useState(false);
+  const [showLabel, setLabel] = useState(false);
 
   let handleHotel = () => {
     setIsHotel(!isHotel);
@@ -48,8 +46,7 @@ function Stay() {
       .then((data) => {
         const filteredHotels = data
           .filter(
-            (hotel) =>
-              hotel.city === dest && stayBudget >= hotel["price"][0]
+            (hotel) => hotel.city === dest && stayBudget >= hotel["price"][0]
           )
           .sort((a, b) => b.price[0] - a.price[0]);
         setHotel(filteredHotels);
@@ -71,11 +68,11 @@ function Stay() {
     if (isHotel && hotel.length === 0) {
       alert("No hotels found at your budget");
       setIsHotel(false);
-    } 
+    }
     if (isHostel && hostel.length === 0) {
       alert("No hostels found at your budget");
       setIsHostel(false);
-    } 
+    }
     if (isDorm && dorm.length === 0) {
       alert("No dormitories found at your budget");
       setIsDorm(false);
@@ -83,7 +80,7 @@ function Stay() {
   }, [hotel, hostel, dorm, isHotel, isHostel, isDorm]);
 
   return (
-    <div className="budgetContainer" style={{marginTop:"3%"}}>
+    <div className="budgetContainer" style={{ marginTop: "3%" }}>
       <div
         className="stayBudget"
         style={{ display: "flex", gap: "20px", alignItems: "center" }}
@@ -109,9 +106,9 @@ function Stay() {
             aria-label="Default"
             style={{ width: "50vw" }}
             onChange={(e) => setStayBudget(Number(e.target.value))}
-            onMouseOver={()=>setLabel(true)}
-            onMouseLeave={()=>setLabel(false)}
-            valueLabelDisplay={showLabel ? 'on' : 'off'}
+            onMouseOver={() => setLabel(true)}
+            onMouseLeave={() => setLabel(false)}
+            valueLabelDisplay={showLabel ? "on" : "off"}
           />
         </div>
       </div>
@@ -128,9 +125,9 @@ function Stay() {
         <ItemCard img={"./media/images/dorm.png"} onClick={handleDorm} />
       </div>
       <div className="allStay">
-        <BottomNav/>
-        
-        {isHotel && <Carousel places={hotel} />}
+        {/* <BottomNav /> */}
+
+        {isHotel && <BottomNav stayPlace={hotel} />}
         {isHostel && <Carousel places={hostel} />}
         {isDorm && <Carousel places={dorm} />}
       </div>
@@ -139,4 +136,3 @@ function Stay() {
 }
 
 export default Stay;
-

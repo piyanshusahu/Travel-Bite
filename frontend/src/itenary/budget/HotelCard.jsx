@@ -1,15 +1,15 @@
-import * as React from 'react';
-import './HotelCard.css';
+import * as React from "react";
+import "./HotelCard.css";
 
-import { FaStar } from 'react-icons/fa';
+import { FaStar } from "react-icons/fa";
 import {
   FaWifi,
   FaTv,
   FaSnowflake,
   FaHotTub,
   FaDog,
-  FaWheelchair
-} from 'react-icons/fa';
+  FaWheelchair,
+} from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faStar,
@@ -24,7 +24,10 @@ import {
   faDumbbell,
   faBriefcase,
   faMusic,
+  faSquareArrowUpRight,
 } from "@fortawesome/free-solid-svg-icons";
+import DialBox from "./DialBox";
+import ShowDetails from "./ShowDetails";
 
 const amenityIcons = {
   WiFi: faWifi,
@@ -40,11 +43,12 @@ const amenityIcons = {
   "Event Spaces": faMusic,
 };
 
+export default function HotelCard({ stayPlace }) {
+  const star = stayPlace.star;
 
-export default function HotelCard (){
-
-     const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = React.useState(false);
   const [scroll, setScroll] = React.useState("paper");
+  const [popup,setPopup]=React.useState(false);
 
   const handleClickOpen = (scrollType) => () => {
     setOpen(true);
@@ -54,58 +58,68 @@ export default function HotelCard (){
   const handleClose = () => {
     setOpen(false);
   };
-     
 
   return (
-    
     <div className="hotel-card">
-        <script src="https://cdn.tailwindcss.com"></script>
+      <script src="https://cdn.tailwindcss.com"></script>
       <link
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
         rel="stylesheet"
       />
 
       <img
-        src="\media\images\hotp.webp" 
+        src="\media\images\hotp.webp"
         alt="Taj Mahal Palace"
         className="hotel-image"
       />
-
+      <FontAwesomeIcon
+      style={{cursor:"pointer"}}
+        onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
+        onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+        onClick={()=>{
+          setPopup(true)
+        }}
+        icon={faSquareArrowUpRight}
+      />
       <div className="hotel-content">
         <div>
-          <h2 className="hotel-title">Hotel
-             <span className="stars">
-    {[...Array(5)].map((_, i) => (
-      <FaStar key={i} className="star-icon" />
-    ))}
-  </span>
+          <h2
+            className="hotel-title"
+            style={{ fontSize: "1.3rem", fontFamily: "cursive" }}
+          >
+            {stayPlace.name}
+
+            <span className="stars">
+              {[...Array(star)].map((_, i) => (
+                <FaStar key={i} className="star-icon" />
+              ))}
+            </span>
           </h2>
-          
+
           <div className="rating-badge">
-        <span className="rating-value">4.7</span>
-        <span className="stars" style={{ color: "#FFD700" }}>
-          <i className="fas fa-star"></i>
-          <i className="fas fa-star"></i>
-          <i className="fas fa-star"></i>
-          <i className="fas fa-star"></i>
-          <i className="fas fa-star-half-alt"></i>
-        </span>
-        <span
-          className="rating-count"
-          style={{ color: "#4B5563", marginLeft: "4px" }}
-        >
-          (1,044)
-        </span>
-      </div>
-          
+            <span className="rating-value">{stayPlace.rating}</span>
+            <span className="stars" style={{ color: "#FFD700" }}>
+              <i className="fas fa-star"></i>
+              <i className="fas fa-star"></i>
+              <i className="fas fa-star"></i>
+              <i className="fas fa-star"></i>
+              <i className="fas fa-star-half-alt"></i>
+            </span>
+            <span
+              className="rating-count"
+              style={{ color: "#4B5563", marginLeft: "4px" }}
+            >
+              (1,044)
+            </span>
+          </div>
+
           <p className="hotel-description">
-            Experience timeless luxury at the iconic Taj Mahal Palace in Mumbai. Overlooking the
-            majestic Gateway of India, this historic hotel blends old-world elegance with modern
-            hospitality.
+            Experience timeless luxury at the iconic {stayPlace.name} in {stayPlace.city}.
+            Overlooking the majestic Gateway of India, this historic hotel
+            blends old-world elegance with modern hospitality.
           </p>
 
           <div className="hotel-icons">
-            
             <FaWifi />
             <FaTv />
             <FaSnowflake />
@@ -116,23 +130,30 @@ export default function HotelCard (){
 
           <div className="promo-bar">
             <span className="promo-check">✔</span>
-             Special Offer Ending Today!
+            Special Offer Ending Today!
           </div>
         </div>
       </div>
 
       <div className="hotel-sidebar">
         <div className="hotel-price">
-          <p className="discount-price">₹1,624</p>
-         
+          <p className="discount-price">
+            <p style={{ fontFamily: "cursive", color: "black" }}>Staring at</p>
+            <br />₹{stayPlace.price[0]}
+          </p>
+
           {/* <p className="original-price">$1,804.44</p> */}
         </div>
-        
-        <button className="select-button" variant="contained" onClick={handleClickOpen("paper")}>
-            SELECT
-            </button>
+
+        <button
+          className="select-button"
+          variant="contained"
+          onClick={handleClickOpen("paper")}
+        >
+          SELECT
+        </button>
       </div>
+      {popup && <ShowDetails stayPlace={stayPlace} />}
     </div>
   );
-};
-
+}
