@@ -105,7 +105,7 @@ export default function DialBox({ stayPlace }) {
       </div>
 
       <p className="description">
-        Experience timeless luxury at the iconic Taj Mahal Palace in Mumbai.
+        Experience timeless luxury at the iconic {stayPlace.name} in {stayPlace.city}.
         Overlooking the majestic Gateway of India, this historic hotel blends
         old-world elegance with modern hospitality. Each room offers a unique
         blend of Indian heritage and contemporary comfort.

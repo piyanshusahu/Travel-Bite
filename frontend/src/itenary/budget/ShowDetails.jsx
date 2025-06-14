@@ -1,108 +1,74 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
 import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
-
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faSquareXmark,
-  faPhone,
-  faLocationDot,
-} from "@fortawesome/free-solid-svg-icons";
+import Button from "@mui/material/Button";
 import DialBox from "./DialBox.jsx";
 
-// Optional: Slide transition
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-export default function ShowDetails({ stayPlace }) {
-  let id = stayPlace.id;
-  let name = stayPlace.name;
-  let address = stayPlace.address;
-  let contact = stayPlace.contact;
-  let city = stayPlace.city;
-  let amenities = stayPlace.amenities;
+export default function ShowDetails({ stayPlace, open, onClose }) {
+  const id = stayPlace.id;
+  const name = stayPlace.name;
 
-
-
-  const [open, setOpen] = React.useState(false);
-  const [scroll, setScroll] = React.useState("paper");
-  const [h_id, setH_Id] = React.useState("");
-
-  const handleClickOpen = (scrollType) => () => {
-    setOpen(true);
-    setScroll(scrollType);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const descriptionElementRef = React.useRef(null);
-  React.useEffect(() => {
-    if (open) {
-      const { current: descriptionElement } = descriptionElementRef;
-      if (descriptionElement !== null) {
-        descriptionElement.focus();
-      }
-    }
-  }, [open]);
-
-  function handleHotelSelection(id) {
-    setH_Id(id);
-    handleClose();
+  function handleHotelSelection() {
+    alert(`You selected: ${name}`);
+    onClose(); // close dialog after selection
   }
 
   return (
-    <React.Fragment>
-      <Dialog
-        open="paper"
-        onClose={handleClose}
-        scroll={scroll}
-        TransitionComponent={Transition}
-        aria-labelledby="scroll-dialog-title"
-        aria-describedby="scroll-dialog-description"
-        PaperProps={{
-          style: {
-            width: "55vw", // 90% of viewport width
-            maxWidth: "70vw", // Disable MUI's default maxWidth
-            height: "100vh", // Optional: 90% of viewport height
-          },
-        }}
-      >
-        <div className="top" style={{ justifyContent: "space-between" }}>
-          <Button onClick={handleClose} style={{ color: "black" }}>
-            &lt; Go Back
-          </Button>
-          <div style={{ color: "black" }}>{id}</div>
-        </div>
-        <DialBox stayPlace={stayPlace} />
+    <Dialog
+      open={open}
+      onClose={onClose}
+      scroll="paper"
+      TransitionComponent={Transition}
+      aria-labelledby="scroll-dialog-title"
+      PaperProps={{
+        style: {
+          width: "55vw",
+          maxWidth: "70vw",
+          height: "100vh",
+        },
+      }}
+    >
+      <div className="top" style={{ justifyContent: "space-between" }}>
+        <button
+          onClick={onClose}
+          style={{
+            marginBottom: "1rem",
+            backgroundColor: "#f3f4f6",
+            padding: "8px 12px",
+            borderRadius: "5px",
+            cursor: "pointer",
+          }}
+        >
+          ← Go Back
+        </button>
+        <div style={{ color: "black" }}>{id}</div>
+      </div>
 
-        <div className="row">
-          <div className="col"></div>
-          <div style={{ display: "flex", justifyContent: "center" }}>
-            <Button
-              onClick={() => handleHotelSelection({ name })}
-              style={{ transition: "all ease-in 0.2s" }}
-              onMouseOver={(e) => {
-                e.target.style.backgroundColor = "blue";
-                e.target.style.color = "white";
-              }}
-              onMouseLeave={(e) => {
-                e.target.style.backgroundColor = "white";
-                e.target.style.color = "blue";
-              }}
-            >
-              Select
-            </Button>
-          </div>
+      <DialBox stayPlace={stayPlace} />
+
+      <div className="row">
+        <div className="col"></div>
+        <div style={{ display: "flex", justifyContent: "center" }}>
+          <Button
+            onClick={handleHotelSelection}
+            style={{ transition: "all ease-in 0.2s" }}
+            onMouseOver={(e) => {
+              e.target.style.backgroundColor = "blue";
+              e.target.style.color = "white";
+            }}
+            onMouseLeave={(e) => {
+              e.target.style.backgroundColor = "white";
+              e.target.style.color = "blue";
+            }}
+          >
+            Select
+          </Button>
         </div>
-      </Dialog>
-    </React.Fragment>
+      </div>
+    </Dialog>
   );
 }
