@@ -6,7 +6,18 @@ const placesSchema = new Schema({
   price:String,
   city:String,
   timings:String,
-  pincode:Number
+  location: {
+    type: {
+      type: String,
+      enum: ['Point'],
+      required: true,
+      default: 'Point'
+    },
+    coordinates: {
+      type: [Number], // [longitude, latitude]
+      required: true
+    }
+  }
 });
 
 module.exports = { placesSchema };
