@@ -5,7 +5,8 @@ const placesSchema = new Schema({
   address: String,
   price:String,
   city:String,
-  timings:String
+  timings:String,
+  pincode:Number
 });
 
 module.exports = { placesSchema };

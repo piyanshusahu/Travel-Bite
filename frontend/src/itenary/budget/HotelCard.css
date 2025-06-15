@@ -1,7 +1,7 @@
 .hotel-card {
   display: flex;
   max-width: 1000px;
-  height:100%;
+  height: 100%;
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 12px;
@@ -9,6 +9,24 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
   font-family: Arial, sans-serif;
   margin: 20px auto;
+ 
+}
+.clickable-card {
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.3s ease;
+  border-radius: 10px;
+  border: 1px solid #ccc;
+}
+
+.clickable-card:hover {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  transform: translateY(-4px);
+  background-color: #f8f9fa;
+}
+
+.clickable-card:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
 .stars {
@@ -41,13 +59,13 @@
   z-index: 10;
   margin-top: 10px;
   margin-bottom: 10px;
-  
+
 }
 
 .rating-value {
   font-weight: bold;
   margin-right: 6px;
-  color: #111827; 
+  color: #111827;
 }
 
 .rating-badge .stars {
@@ -114,8 +132,8 @@
   padding: 20px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between; 
-  align-items: center;    
+  justify-content: space-between;
+  align-items: center;
   text-align: center;
   border-left: 2px solid #ddd;
 }
@@ -145,4 +163,25 @@
 
 .select-button:hover {
   background-color: #333;
+}
+
+.more-button {
+  margin: 8px 0;
+  padding: 9px 12px;
+  background-color: #f0f0f0;
+  color: #333;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position:relative;
+  top: 79px;
+  left: -150px;
+}
+
+.more-button:hover {
+  background-color: #e0e0e0;
+  border-color: #aaa;
+  transform: translateY(-1px);
 }

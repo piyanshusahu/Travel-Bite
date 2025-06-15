@@ -1,10 +1,10 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
-const restaurantSchema = require("./schema/resterauntsSchema");
+const hotelsSchema = require("./schema/hotelsSchema");
 const { model } = mongoose;
 
 // Create model from schema
-const Restaurant = model("Restaurant", restaurantSchema.resterauntSchema);
+const hotels = model("Hotels", hotelsSchema.hotelsSchema);
 
 // Connect to DB
 const uri = process.env.MONGO_URL;
