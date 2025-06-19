@@ -1,12 +1,9 @@
 import * as React from "react";
 import "./HotelCard.css";
-import * as React from 'react';
-import './HotelCard.css';
 import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
 
 import { FaStar } from "react-icons/fa";
 import {
-  FaStar,
   FaWifi,
   FaTv,
   FaSnowflake,
