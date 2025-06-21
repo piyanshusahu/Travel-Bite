@@ -4,72 +4,7 @@ import ListSubheader from '@mui/material/ListSubheader';
 import HotelCard from './HotelCard.jsx'; 
 import Box from '@mui/material/Box';
 
-// Mock data 
-const hotelData = [
-  {
-    name: 'Taj Mahal Palace',
-    image: '/media/images/hotp.webp',
-    price: 1624,
-    stars: 5,
-    amenities: ['wifi', 'tv', 'ac', 'spa', 'pet', 'accessible'],
-    description: 'Experience timeless luxury at the iconic Taj Mahal Palace in Mumbai...',
-    rating: 4.7,
-    reviews: 1044,
-  },
-  {
-    name: 'The Oberoi',
-    image: '/media/images/hotp.webp',
-    price: 1980,
-    stars: 4,
-    amenities: ['wifi', 'tv', 'ac', 'spa'],
-    description: 'Luxury and elegance in the heart of the city...',
-    rating: 4.6,
-    reviews: 865,
-  },
-   {
-    name: 'The Oberoi',
-    image: '/media/images/hotp.webp',
-    price: 1980,
-    stars: 4,
-    amenities: ['wifi', 'tv', 'ac', 'spa'],
-    description: 'Luxury and elegance in the heart of the city...',
-    rating: 4.6,
-    reviews: 865,
-  },
-  {
-    name: 'The Oberoi',
-    image: '/media/images/hotp.webp',
-    price: 1980,
-    stars: 4,
-    amenities: ['wifi', 'tv', 'ac', 'spa'],
-    description: 'Luxury and elegance in the heart of the city...',
-    rating: 4.6,
-    reviews: 865,
-  },
-  {
-    name: 'The Oberoi',
-    image: '/media/images/hotp.webp',
-    price: 1980,
-    stars: 4,
-    amenities: ['wifi', 'tv', 'ac', 'spa'],
-    description: 'Luxury and elegance in the heart of the city...',
-    rating: 4.6,
-    reviews: 865,
-  },
-  {
-    name: 'The Oberoi',
-    image: '/media/images/hotp.webp',
-    price: 1980,
-    stars: 4,
-    amenities: ['wifi', 'tv', 'ac', 'spa'],
-    description: 'Luxury and elegance in the heart of the city...',
-    rating: 4.6,
-    reviews: 865,
-  },
- 
-];
-
-export default function PinnedSubheaderList({stayPlace}) {
+export default function BottomNav({stayPlace}) {
   return (
   <Box sx={{ padding: 2 }} >
   <List
@@ -93,9 +28,9 @@ export default function PinnedSubheaderList({stayPlace}) {
   }} 
   
 >
-  {hotelData.map((hotel, index) => (
+  {stayPlace.map((hotel, index) => (
     <li
-      key={index}
+      key={hotel.id}
       style={{
         listStyle: 'none',
         scrollSnapAlign: 'start',
