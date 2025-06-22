@@ -53,6 +53,7 @@ function Stay() {
       })
       .catch((error) => console.error("Error fetching data:", error));
   }, [dest, stayBudget]);
+ 
   useEffect(() => {
     Aos.init({ duration: 2000 });
 
@@ -81,6 +82,7 @@ function Stay() {
 
   return (
     <div className="budgetContainer" style={{ marginTop: "3%" }}>
+    {console.log(hotel)}
       <div
         className="stayBudget"
         style={{ display: "flex", gap: "20px", alignItems: "center" }}
@@ -125,15 +127,15 @@ function Stay() {
         <ItemCard img={"./media/images/dorm.png"} onClick={handleDorm} />
       </div>
       <div className="allStay">
-        <BottomNav/>
+        {isHotel && <BottomNav stayPlace={hotel} />}
         
         
-        {isHotel && <Carousel places={hotel} />}
+        {/* {isHotel && <Carousel places={hotel} />} */}
         {/* <BottomNav /> */}
 
-        {isHotel && <BottomNav stayPlace={hotel} />}
+        {/* {isHotel && <BottomNav stayPlace={hotel} />}
         {isHostel && <Carousel places={hostel} />}
-        {isDorm && <Carousel places={dorm} />}
+        {isDorm && <Carousel places={dorm} />} */}
       </div>
     </div>
   );
