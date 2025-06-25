@@ -6,6 +6,7 @@ import { useLocation } from "react-router-dom";
 import Carousel from "./Carousel";
 import Aos from "aos";
 import { Button } from "@mui/material";
+import BottomNav from './BottomNav.js';
 
 function Travel() {
   const location = useLocation();
@@ -93,6 +94,18 @@ function Travel() {
       <div className="allTravel">
         {isCarRental && <Carousel places={carRental} />}
       </div>
+      
+      <div className="allStay">
+              
+              
+              
+              {/* {isHotel && <Carousel places={hotel} />} */}
+              {/* <BottomNav /> */}
+      
+              {/* {isHotel && <BottomNav stayPlace={hotel} />}
+              {isHostel && <Carousel places={hostel} />}
+              {isDorm && <Carousel places={dorm} />} */}
+            </div>
     </>
   );
 }

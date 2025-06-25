@@ -3,6 +3,7 @@ import "./HotelCard.css";
 import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
 
 import {
+  FaStar,
   FaWifi,
   FaTv,
   FaSnowflake,
