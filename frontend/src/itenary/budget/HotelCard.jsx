@@ -10,6 +10,7 @@ import {
   FaHotTub,
   FaDog,
   FaWheelchair,
+  FaStar
 } from "react-icons/fa";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faSquareArrowUpRight } from "@fortawesome/free-solid-svg-icons";
