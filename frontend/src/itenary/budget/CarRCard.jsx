@@ -1,9 +1,8 @@
 import * as React from "react";
-import "./HotelCard.css";
+import "./CarRCard.css";
 import ExpandCircleDownIcon from '@mui/icons-material/ExpandCircleDown';
 
 import {
-  FaStar,
   FaWifi,
   FaTv,
   FaSnowflake,
@@ -16,17 +15,20 @@ import { faSquareArrowUpRight } from "@fortawesome/free-solid-svg-icons";
 import ShowDetails from "./ShowDetails";
 import { useNavigate } from "react-router-dom";
 
-export default function HotelCard({ stayPlace }) {
+export default function CarRCard({ places }) {
+
   const navigate = useNavigate();
-  const star = stayPlace.star;
+ 
   const [popup, setPopup] = React.useState(false);
 
   const handleClose = () => {
     setPopup(false);
   };
 
+  
+
   return (
-    <div className="hotel-card">
+    <div className="CarR-card">
       <img
         src="/media/images/hotp.webp"
         alt="Taj Mahal Palace"
@@ -41,21 +43,16 @@ export default function HotelCard({ stayPlace }) {
         icon={faSquareArrowUpRight}
       />
 
-      <div className="hotel-content">
+      <div className="CarR-content">
         <h2
-          className="hotel-title"
+          className="CarR-title"
           style={{ fontSize: "1.3rem", fontFamily: "cursive" }}
         >
-          {stayPlace.name}
-          <span className="stars">
-            {[...Array(star)].map((_, i) => (
-              <FaStar key={i} className="star-icon" />
-            ))}
-          </span>
+          {places.name}
         </h2>
 
         <div className="rating-badge">
-          <span className="rating-value">{stayPlace.rating}</span>
+          <span className="rating-value">{places.rating}</span>
           <span className="stars" style={{ color: "#FFD700" }}>
             ★★★★☆
           </span>
@@ -67,12 +64,12 @@ export default function HotelCard({ stayPlace }) {
           </span>
         </div>
 
-        <p className="hotel-description">
-          Experience timeless luxury at the iconic {stayPlace.name} in{" "}
-          {stayPlace.city}.
+        <p className="CarR-description">
+          Experience timeless luxury at the iconic {places.name} in{" "}
+          {places.city}.
         </p>
 
-        <div className="hotel-icons">
+        <div className="CarR-icons">
           <FaWifi />
           <FaTv />
           <FaSnowflake />
@@ -89,7 +86,7 @@ export default function HotelCard({ stayPlace }) {
       <div className="hotel-sidebar">
         <div className="hotel-price">
           <p style={{ fontFamily: "cursive", color: "black" }}>Starting at</p>₹
-          {stayPlace.price[0]}
+          {places.price[0]}
         </div>
 
         <button className="select-button" onClick={() => setPopup(true)}>
@@ -98,9 +95,8 @@ export default function HotelCard({ stayPlace }) {
       </div>
 
       {popup && (
-        <ShowDetails stayPlace={stayPlace} open={popup} onClose={handleClose} />
+        <ShowDetails places={places} open={popup} onClose={handleClose} />
       )}
     </div>
-    
   );
 }
