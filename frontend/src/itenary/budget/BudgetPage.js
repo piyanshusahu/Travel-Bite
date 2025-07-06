@@ -9,7 +9,6 @@ import { motion } from "framer-motion"; // Import motion
 import { styled } from "@mui/material/styles";
 import InputRadios from "./InputRadios";
 
-//hisdfghgfdsdfgfdsfdsdfg
 
 function BudgetPage(){
   const location = useLocation();
@@ -50,9 +49,9 @@ function BudgetPage(){
         variant="contained"
         style={{
           height: "7vh",
-          width: "9vw",
-          marginLeft: "44%",
-          marginTop: "9%",
+          width: "20vw",
+          marginLeft: "36%",
+          marginTop: "2%",
           marginBottom: "5%",
           borderRadius: "2rem",
           fontFamily: "cursive",
@@ -61,7 +60,7 @@ function BudgetPage(){
         }}
         onClick={handleNext}
       >
-        Next
+        Display the itenary
       </Button>
     </motion.div>
   );

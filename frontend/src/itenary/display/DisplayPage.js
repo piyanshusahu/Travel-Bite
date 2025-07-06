@@ -4,14 +4,21 @@ import "./DisplayPage.css";
 import Button from "@mui/material/Button";
 import DetailItenary from "./DetailItenary";
 import Aos from "aos";
+import axios from "axios";
+import DestinationDisplay from "./DestinationDisplay";
 
 function DisplayPage() {
+  const diesel_price = 92.43;
+  const petrol_price = 105.41;
+  const cng_price = 89.5;
+
   const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
 
   const [displayDetail, setDisplayDetail] = useState(false);
-  const [place, setPlace] = useState([]);
+  
   const [resteraunt, setResteraunt] = useState([]);
+  const [transportPrice, setTransportPrice] = useState([]);
 
   const handleDetail = () => {
     setDisplayDetail(!displayDetail);
@@ -29,69 +36,45 @@ function DisplayPage() {
   const days = Math.ceil(timeDifferenceMs / (1000 * 60 * 60 * 24));
   const dayItems = Array.from({ length: days }, (_, index) => index + 1);
 
-  useEffect(() => {
-    Aos.init({ duration: 2000 });
+  async function findDistance(origin, destination) {
+    try {
+      const res = await axios.get("http://localhost:3002/api/distance", {
+        params: { origin, destination },
+      });
+      console.log(res)
+      const element = res.data.rows[0];
+      if (element.status !== "OK") return 0;
+      return element.distance.value / 1000;
+    } catch (err) {
+      console.error("Distance fetch error:", err.message);
+      return 0;
+    }
+  }
 
-    fetch("http://localhost:3002/getPlaces")
-      .then((response) => response.json())
-      .then((data) => {
-        const filteredPlaces = data.filter((place) => place.city === dest);
+  
 
-        // Convert to 24-hour and sort
-        const convertToMinutes = (timeStr) => {
-          if (!timeStr || typeof timeStr !== "string") return -1;
+  const calculateDailyTransportCosts = async (chunkedPlaces) => {
+    const dailyCosts = [];
 
-          timeStr = timeStr.trim();
-          if (timeStr.toLowerCase().includes("open 24 hours")) return 0;
+    for (let day of chunkedPlaces) {
+      let dayDistance = 0;
+      for (let i = 0; i < day.length - 1; i++) {
+        const origin = `${day[i].location.coordinates[0]},${day[i].location.coordinates[1]}`;
+        const destination = `${day[i + 1].location.coordinates[0]},${day[i + 1].location.coordinates[1]}`;
+        const dist = await findDistance(origin, destination);
+        dayDistance += dist;
+        console.log(origin)
+      }
+      const cost = dayDistance * petrol_price;
+      dailyCosts.push({ cost: cost.toFixed(2), distance: dayDistance.toFixed(2) });
+    }
 
-          const [time, modifier] = timeStr.split(" ");
-          if (!time || !modifier) return -1;
-
-          let [hours, minutes] = time.split(":").map(Number);
-          if (modifier === "PM" && hours !== 12) hours += 12;
-          if (modifier === "AM" && hours === 12) hours = 0;
-
-          return hours * 60 + minutes;
-        };
-
-        const sortedPlaces = [...filteredPlaces].sort((a, b) => {
-          if (a.pincode !== b.pincode) {
-            return a.pincode - b.pincode;
-          }
-
-          const [aOpen, aClose] = a.timings?.split("–") || ["", ""];
-          const [bOpen, bClose] = b.timings?.split("–") || ["", ""];
-
-          const aCloseTime = aClose ? convertToMinutes(aClose.trim()) : 1439;
-          const bCloseTime = bClose ? convertToMinutes(bClose.trim()) : 1439;
-
-          if (aCloseTime !== bCloseTime) {
-            return aCloseTime - bCloseTime;
-          }
-
-          const aOpenTime = aOpen ? convertToMinutes(aOpen.trim()) : 0;
-          const bOpenTime = bOpen ? convertToMinutes(bOpen.trim()) : 0;
-
-          return aOpenTime - bOpenTime;
-        });
-
-        const placesPerDay = 3;
-        const chunkedPlaces = Array.from({ length: days }, (_, dayIndex) =>
-          sortedPlaces.slice(
-            dayIndex * placesPerDay,
-            (dayIndex + 1) * placesPerDay
-          )
-        );
-
-        setPlace(chunkedPlaces);
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-  }, [dest, days]);
+    setTransportPrice(dailyCosts);
+  };
 
   return (
     <>
       <div className="itenary">
-        {console.log(place)}
         <div className="heading">
           <h1
             style={{
@@ -102,7 +85,7 @@ function DisplayPage() {
               fontSize: "3.5rem",
             }}
           >
-            TRAVEL ITENARY
+            TRAVEL ITINERARY
           </h1>
         </div>
 
@@ -124,165 +107,34 @@ function DisplayPage() {
             justifyContent: "space-evenly",
           }}
         >
-          {/* DESTINATION Section */}
-          <div
-            style={{
-              height: `${days * 20}vh`,
-              width: "300px",
-              backgroundColor: "rgb(0, 153, 204)",
-              borderRadius: "2rem",
-            }}
-          >
-            <h5
-              style={{
-                marginTop: "4%",
-                textAlign: "center",
-                fontFamily: "sans-serif",
-              }}
-            >
-              Destination
-            </h5>
-            {place.map((placesForDay, dayIndex) => (
-              <li
-                key={dayIndex}
-                style={{
-                  fontSize: "1.1rem",
-                  fontWeight: "bold",
-                  paddingLeft: "10%",
-                  fontFamily: "cursive",
-                  marginBottom: "10%",
-                  marginTop: "15%",
-                }}
-                className="day-item"
-              >
-                Day {dayIndex + 1}:
-                {placesForDay.length > 1
-                  ? placesForDay.map((p) => p.name).join(", ")
-                  : "No places"}
+          {/* Destination */}
+          <DestinationDisplay />
+
+          {/* Eat */}
+          <div className="section-box" style={{ backgroundColor: "rgb(82, 187, 85)" }}>
+            <h5>Eat</h5>
+            {resteraunt.map((placesForDay, dayIndex) => (
+              <li key={dayIndex} className="day-item">
+                Day {dayIndex + 1}:{" "}
+                {placesForDay.length > 0 ? placesForDay.map((p) => p.name).join(", ") : "No places"}
               </li>
             ))}
           </div>
-          {/* Eat Section */}
-          <div
-            style={{
-              height: `${days * 20}vh`,
-              width: "300px",
-              backgroundColor: "rgb(82, 187, 85)",
-              borderRadius: "2rem",
-            }}
-          >
-            <h5
-              style={{
-                marginTop: "4%",
-                textAlign: "center",
-                fontFamily: "sans-serif",
-              }}
-            >
-              Eat
-            </h5>
+
+          {/* Leisure */}
+          <div className="section-box" style={{ backgroundColor: "rgb(0, 153, 204)" }}>
+            <h5>Leisure</h5>
             {resteraunt.map((placesForDay, dayIndex) => (
-              <li
-                key={dayIndex}
-                style={{
-                  fontSize: "1.1rem",
-                  fontWeight: "bold",
-                  paddingLeft: "10%",
-                  fontFamily: "cursive",
-                  marginBottom: "10%",
-                  marginTop: "15%",
-                }}
-                className="day-item"
-              >
-                Day {dayIndex + 1}:
-                {placesForDay.length > 0
-                  ? placesForDay.map((p) => p.name).join(", ")
-                  : "No places"}
-              </li>
-            ))}
-          </div>
-          {/* Leisure Section */}
-          <div
-            style={{
-              height: `${days * 20}vh`,
-              width: "300px",
-              backgroundColor: "rgb(0, 153, 204)",
-              borderRadius: "2rem",
-            }}
-          >
-            <h5
-              style={{
-                marginTop: "4%",
-                textAlign: "center",
-                fontFamily: "sans-serif",
-              }}
-            >
-              Leisure
-            </h5>
-            {resteraunt.map((placesForDay, dayIndex) => (
-              <li
-                key={dayIndex}
-                style={{
-                  fontSize: "1.1rem",
-                  fontWeight: "bold",
-                  paddingLeft: "10%",
-                  fontFamily: "cursive",
-                  marginBottom: "10%",
-                  marginTop: "15%",
-                }}
-                className="day-item"
-              >
-                Day {dayIndex + 1}:
-                {placesForDay.length > 0
-                  ? placesForDay.map((p) => p.name).join(", ")
-                  : "No places"}
-              </li>
-            ))}
-          </div>
-          {/* Transport Section */}
-          <div
-            style={{
-              height: `${days * 20}vh`,
-              width: "300px",
-              backgroundColor: "rgb(82, 187, 85)",
-              borderRadius: "2rem",
-            }}
-          >
-            <h5
-              style={{
-                marginTop: "4%",
-                textAlign: "center",
-                fontFamily: "sans-serif",
-              }}
-            >
-              Transport
-            </h5>
-            {resteraunt.map((placesForDay, dayIndex) => (
-              <li
-                key={dayIndex}
-                style={{
-                  fontSize: "1.1rem",
-                  fontWeight: "bold",
-                  paddingLeft: "10%",
-                  fontFamily: "cursive",
-                  marginBottom: "10%",
-                  marginTop: "15%",
-                }}
-                className="day-item"
-              >
-                Day {dayIndex + 1}:
-                {placesForDay.length > 0
-                  ? placesForDay.map((p) => p.name).join(", ")
-                  : "No places"}
+              <li key={dayIndex} className="day-item">
+                Day {dayIndex + 1}:{" "}
+                {placesForDay.length > 0 ? placesForDay.map((p) => p.name).join(", ") : "No places"}
               </li>
             ))}
           </div>
         </div>
       </div>
 
-      <div
-        className="detail flex"
-        style={{ justifyContent: "center", marginBottom: "3%" }}
-      >
+      <div className="detail flex" style={{ justifyContent: "center", marginBottom: "3%" }}>
         <Button
           variant="contained"
           style={{

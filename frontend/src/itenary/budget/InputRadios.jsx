@@ -100,7 +100,13 @@ function InputRadios() {
               <FormControlLabel
                 value="Only Veg"
                 control={<BpRadio />}
-                label="Veg"
+                label="Pure Veg"
+                style={{ margin: "0.8rem" }}
+              />
+              <FormControlLabel
+                value="Jain"
+                control={<BpRadio />}
+                label="Jain"
                 style={{ margin: "0.8rem" }}
               />
               <FormControlLabel
@@ -157,7 +163,7 @@ function InputRadios() {
           </FormControl>
         </div>
       </div>
-      {carRentals && <Travel />}
+      <div style={{marginTop:"15%"}}>{carRentals && <Travel />}</div>
     </>
   );
 }

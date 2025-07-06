@@ -15,6 +15,15 @@ import {
   faBriefcase,
   faMusic,
   faStarHalf,
+  faWater,
+  faCar,
+  faSpoon,
+  faCab,
+  faBars,
+  faGlassCheers,
+  faTv,
+  faHotel,
+  faPerson
 } from "@fortawesome/free-solid-svg-icons";
 
 const amenityIcons = {
@@ -29,6 +38,17 @@ const amenityIcons = {
   "Fine Dining": faUtensils,
   "Business Center": faBriefcase,
   "Event Spaces": faMusic,
+  "Sea View":faWater,
+  "Valet Parking":faCar,
+  "Multiple Restaurants":faUtensils,
+  "Luxury Spa":faSpa,
+  "Airport Shuttle":faCab,
+  "Pool":faSwimmingPool,
+  "Gym":faDumbbell,
+  "Bar":faGlassCheers,
+  "Breakfast":faUtensils,
+  "TV":faTv,
+  "Room Service":faPerson
 };
 
 export default function DialBox({ stayPlace }) {
