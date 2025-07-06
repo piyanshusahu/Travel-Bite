@@ -6,7 +6,8 @@ import { useLocation } from "react-router-dom";
 import Carousel from "./Carousel";
 import Aos from "aos";
 import { Button } from "@mui/material";
-import BottomNav from './BottomNav.js';
+
+import CarRNav from './CarRNav.js';
 
 function Travel() {
   const location = useLocation();
@@ -94,7 +95,9 @@ function Travel() {
       <div className="allTravel">
         {isCarRental && <Carousel places={carRental} />}
       </div>
-      
+
+      {isCarRental && <CarRNav  key={carRental._id} places = {carRental}/>}  
+
       <div className="allStay">
               
               
