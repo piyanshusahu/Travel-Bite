@@ -161,6 +161,13 @@
   margin-top: 10px;
 }
 
+.select-button.selected {
+  background-color: #4caf50; /* Green */
+  color: white;
+  font-weight: bold;
+}
+
+
 .select-button:hover {
   background-color: #333;
 }

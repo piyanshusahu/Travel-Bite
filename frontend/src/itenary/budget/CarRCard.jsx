@@ -20,6 +20,7 @@ export default function CarRCard({ places }) {
   const navigate = useNavigate();
  
   const [popup, setPopup] = React.useState(false);
+  const [isSelected, setIsSelected] = React.useState(false);
 
   const handleClose = () => {
     setPopup(false);
@@ -28,20 +29,25 @@ export default function CarRCard({ places }) {
   
 
   return (
-    <div className="CarR-card">
+    <div className="CarR-card clickable-card"
+                 onClick={() => setPopup(true)}
+        onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.01)")}
+        onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
+        style={{ transition: "transform 0.2s ease", cursor: "pointer" }}
+        >
       <img
         src="/media/images/hotp.webp"
         alt="Taj Mahal Palace"
         className="hotel-image"
       />
 
-      <FontAwesomeIcon
+      {/* <FontAwesomeIcon
         style={{ cursor: "pointer" }}
         onMouseOver={(e) => (e.currentTarget.style.transform = "scale(1.1)")}
         onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
         onClick={() => setPopup(true)}
         icon={faSquareArrowUpRight}
-      />
+      /> */}
 
       <div className="CarR-content">
         <h2
@@ -89,9 +95,15 @@ export default function CarRCard({ places }) {
           {places.price[0]}
         </div>
 
-        <button className="select-button" onClick={() => setPopup(true)}>
-          SELECT
-        </button>
+        <button
+            className={`select-button ${isSelected ? "selected" : ""}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsSelected(!isSelected);
+            }}
+          >
+            {isSelected ? "SELECTED" : "SELECT"}
+          </button>
       </div>
 
       {popup && (

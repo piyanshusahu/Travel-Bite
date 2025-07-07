@@ -1,7 +1,7 @@
 import * as React from 'react'; 
 import List from '@mui/material/List';
 import ListSubheader from '@mui/material/ListSubheader';
-import CarRCard from './HotelCard.jsx'; 
+import CarRCard from './CarRCard.jsx'; 
 import Box from '@mui/material/Box';
 
 export default function CarRNav({places}) {

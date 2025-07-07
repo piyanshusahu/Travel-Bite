@@ -51,6 +51,9 @@ const amenityIcons = {
   "Room Service":faPerson
 };
 
+
+
+
 export default function DialBox({ stayPlace }) {
   let name = stayPlace.name;
   let address = stayPlace.address;
