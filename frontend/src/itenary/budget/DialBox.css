@@ -5,11 +5,12 @@
 
 .dialcontainer {
   max-width: 48rem; 
-  margin: 2rem auto;
+  margin: 2rem auto; 
   padding: 1.5rem;
   background-color: #ffffff;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
   top: 18px;
+  margin-top: -5px;
   
 }
 
@@ -53,8 +54,10 @@
 }
 
 .main-image {
-  max-width: 100%;
-  height: auto;
+   width: 100%;        /* or use a specific size like 300px */
+  max-height: 400px;  /* adjust to desired height */
+  object-fit: cover;
+  border-radius: 10px; /* optional */
 }
 
 .title {
