@@ -92,9 +92,9 @@ function Travel() {
         </div>
       </div>
 
-      {/* <div className="allTravel">
+      <div className="allTravel">
         {isCarRental && <Carousel places={carRental} />}
-      </div> */}
+      </div>
 
       {isCarRental && <CarRNav  key={carRental._id} places = {carRental}/>}  
 

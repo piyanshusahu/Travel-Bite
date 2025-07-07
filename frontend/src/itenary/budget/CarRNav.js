@@ -39,7 +39,7 @@ export default function CarRNav({places}) {
         marginTop: index === 0 ? '16px' : '0px',
       }}
     >
-      <CarRCard  key={carRental._id} places={carRental} />
+      <CarRCard places={carRental} />
     </li>
   ))}
 </List>
