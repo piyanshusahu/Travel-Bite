@@ -8,6 +8,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion"; // Import motion
 import { styled } from "@mui/material/styles";
 import InputRadios from "./InputRadios";
+import { useContext } from "react";
 
 
 function BudgetPage(){

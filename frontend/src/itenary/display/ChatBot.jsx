@@ -1,7 +1,7 @@
 import { all } from "axios";
 import { set } from "mongoose";
 import React, { useEffect, useState } from "react";
-import AnswerModel from "./AnswerModel";
+// import AnswerModel from "./AnswerModel";
 
 function ChatBot() {
   const [question, setQuestion] = useState("");
@@ -29,9 +29,9 @@ function ChatBot() {
         >
           {allQuestions[allQuestions.length - 1]}
         </p>
-        {getAnswer && <div className="answer">
+        {/* {getAnswer && <div className="answer">
             <AnswerModel question={question} />
-        </div>}
+        </div>} */}
       </div>
       <div className="chatbot" style={{ marginBottom: "5%" }}>
         <input
