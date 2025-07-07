@@ -6,6 +6,7 @@ import DetailItenary from "./DetailItenary";
 import Aos from "aos";
 import axios from "axios";
 import DestinationDisplay from "./DestinationDisplay";
+import ChatBot from "./ChatBot";
 
 function DisplayPage() {
   const diesel_price = 92.43;
@@ -16,9 +17,11 @@ function DisplayPage() {
   const queryParams = new URLSearchParams(location.search);
 
   const [displayDetail, setDisplayDetail] = useState(false);
-  
+
   const [resteraunt, setResteraunt] = useState([]);
   const [transportPrice, setTransportPrice] = useState([]);
+
+  
 
   const handleDetail = () => {
     setDisplayDetail(!displayDetail);
@@ -41,7 +44,7 @@ function DisplayPage() {
       const res = await axios.get("http://localhost:3002/api/distance", {
         params: { origin, destination },
       });
-      console.log(res)
+      console.log(res);
       const element = res.data.rows[0];
       if (element.status !== "OK") return 0;
       return element.distance.value / 1000;
@@ -51,8 +54,6 @@ function DisplayPage() {
     }
   }
 
-  
-
   const calculateDailyTransportCosts = async (chunkedPlaces) => {
     const dailyCosts = [];
 
@@ -60,13 +61,18 @@ function DisplayPage() {
       let dayDistance = 0;
       for (let i = 0; i < day.length - 1; i++) {
         const origin = `${day[i].location.coordinates[0]},${day[i].location.coordinates[1]}`;
-        const destination = `${day[i + 1].location.coordinates[0]},${day[i + 1].location.coordinates[1]}`;
+        const destination = `${day[i + 1].location.coordinates[0]},${
+          day[i + 1].location.coordinates[1]
+        }`;
         const dist = await findDistance(origin, destination);
         dayDistance += dist;
-        console.log(origin)
+        console.log(origin);
       }
       const cost = dayDistance * petrol_price;
-      dailyCosts.push({ cost: cost.toFixed(2), distance: dayDistance.toFixed(2) });
+      dailyCosts.push({
+        cost: cost.toFixed(2),
+        distance: dayDistance.toFixed(2),
+      });
     }
 
     setTransportPrice(dailyCosts);
@@ -111,46 +117,58 @@ function DisplayPage() {
           <DestinationDisplay />
 
           {/* Eat */}
-          <div className="section-box" style={{ backgroundColor: "rgb(82, 187, 85)" }}>
+          <div
+            className="section-box"
+            style={{ backgroundColor: "rgb(82, 187, 85)" }}
+          >
             <h5>Eat</h5>
             {resteraunt.map((placesForDay, dayIndex) => (
               <li key={dayIndex} className="day-item">
                 Day {dayIndex + 1}:{" "}
-                {placesForDay.length > 0 ? placesForDay.map((p) => p.name).join(", ") : "No places"}
+                {placesForDay.length > 0
+                  ? placesForDay.map((p) => p.name).join(", ")
+                  : "No places"}
               </li>
             ))}
           </div>
 
           {/* Leisure */}
-          <div className="section-box" style={{ backgroundColor: "rgb(0, 153, 204)" }}>
+          <div
+            className="section-box"
+            style={{ backgroundColor: "rgb(0, 153, 204)" }}
+          >
             <h5>Leisure</h5>
             {resteraunt.map((placesForDay, dayIndex) => (
               <li key={dayIndex} className="day-item">
                 Day {dayIndex + 1}:{" "}
-                {placesForDay.length > 0 ? placesForDay.map((p) => p.name).join(", ") : "No places"}
+                {placesForDay.length > 0
+                  ? placesForDay.map((p) => p.name).join(", ")
+                  : "No places"}
               </li>
             ))}
           </div>
         </div>
       </div>
 
-      <div className="detail flex" style={{ justifyContent: "center", marginBottom: "3%" }}>
+      <div
+        className="detail flex"
+        style={{ justifyContent: "center", marginBottom: "3%" }}
+      >
         <Button
           variant="contained"
           style={{
-            height: "7vh",
-            width: "13vw",
+            height: "10vh",
+            width: "20vw",
             borderRadius: "2rem",
-            fontFamily: "cursive",
             fontWeight: "bold",
             fontSize: "1rem",
           }}
           onClick={handleDetail}
         >
-          Show in Detail
+          Ask anything to TravelBite's AI Bot
         </Button>
-        {displayDetail && <DetailItenary />}
       </div>
+      {displayDetail && <ChatBot />}
     </>
   );
 }

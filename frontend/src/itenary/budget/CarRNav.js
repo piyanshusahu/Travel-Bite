@@ -1,7 +1,7 @@
 import * as React from 'react'; 
 import List from '@mui/material/List';
 import ListSubheader from '@mui/material/ListSubheader';
-import CarRCard from './HotelCard.jsx'; 
+import CarRCard from './CarRCard.jsx'; 
 import Box from '@mui/material/Box';
 
 export default function CarRNav({places}) {
@@ -39,7 +39,7 @@ export default function CarRNav({places}) {
         marginTop: index === 0 ? '16px' : '0px',
       }}
     >
-      <CarRCard  key={carRental._id} places={carRental} />
+      <CarRCard places={carRental} />
     </li>
   ))}
 </List>

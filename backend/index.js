@@ -18,6 +18,7 @@ const Dormitory=require("./models/Dormitory");
 const carRentals=require("./models/CarRentals");
 const Place=require("./models/placesModel");
 //const { restaurantsModel } = require("./models/restaurantModel");
+const axios = require("axios");
 
 const { streetFoodModel } = require("./models/streetFoodModel");
 const nodemailer = require("nodemailer");
@@ -35,6 +36,46 @@ app.set('views', path.join(__dirname, 'views'));
 
 const PORT = process.env.PORT || 3002;
 const uri = process.env.MONGO_URL;
+// server.js or routes/api.js
+
+
+app.get("/api/distance", async (req, res) => {
+  const { origin, destination } = req.query;
+
+  const headers = {
+    Authorization: "YOUR_API_KEY", // Replace with real ORS key
+    "Content-Type": "application/json",
+  };
+
+  const [originLng, originLat] = origin.split(",").map(Number);
+  const [destLng, destLat] = destination.split(",").map(Number);
+
+  const body = {
+    locations: [[originLng, originLat], [destLng, destLat]],
+    metrics: ["distance", "duration"],
+  };
+
+  try {
+    const response = await axios.post(
+      "https://api.openrouteservice.org/v2/matrix/driving-car",
+      body,
+      { headers }
+    );
+
+    const { distances, durations } = response.data;
+    res.json({
+      distance: distances[0][1], // in meters
+      duration: durations[0][1], // in seconds
+    });
+  } catch (error) {
+    console.error("ORS error:", error.response?.data || error.message);
+    res.status(500).json({ error: "Distance fetch failed" });
+  }
+});
+
+module.exports = router;
+
+
 
 app.listen(PORT, () => {
     console.log(`App is listening on port ${PORT}`);
