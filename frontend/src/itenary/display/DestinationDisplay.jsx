@@ -138,8 +138,12 @@ function DestinationDisplay() {
     <>
       <div
         className="section-box"
-        style={{ backgroundColor: "rgb(0, 153, 204)" }}
+        // style={{ backgroundColor: "rgb(0, 153, 204)" }}
       >
+        
+
+        <h5 style={{   display: "flex", justifyContent: "center"}}>Destination</h5>
+
         {place.map((placesForDay, dayIndex) => (
   <DestinationCard
     key={dayIndex}
@@ -149,18 +153,18 @@ function DestinationDisplay() {
   />
 ))}
 
-        <h5>Destination</h5>
-        {place.map((placesForDay, dayIndex) => (
+        {/* {place.map((placesForDay, dayIndex) => (
           <li key={dayIndex} className="day-item">
             Day {dayIndex + 1}:{" "}
             {placesForDay.length > 0
               ? placesForDay.map((p) => p.name).join(", ")
               : "No places"}
           </li>
-        ))}
+        ))} */}
       </div>
+      
       {/* Transport */}
-      <div className="section-box" style={{ backgroundColor: "rgb(82, 187, 85)", width: "200px" }}>
+      <div className="section-box" style={{ backgroundColor: "rgb(82, 187, 85)", width: "100%" }}>
             <h5>Transport</h5>
             {transportPrice.length > 0 &&
               transportPrice.map((tp, index) => (
