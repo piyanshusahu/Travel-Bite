@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useLocation } from "react-router-dom";
 import Aos from "aos";
 import axios from "axios";
+import DestinationCard from "./DestinationCard";
 
 function DestinationDisplay() {
   const diesel_price = 92.43;
@@ -139,6 +140,15 @@ function DestinationDisplay() {
         className="section-box"
         style={{ backgroundColor: "rgb(0, 153, 204)" }}
       >
+        {place.map((placesForDay, dayIndex) => (
+  <DestinationCard
+    key={dayIndex}
+    day={dayIndex + 1}
+    places={placesForDay}
+    transport={transportPrice[dayIndex]}
+  />
+))}
+
         <h5>Destination</h5>
         {place.map((placesForDay, dayIndex) => (
           <li key={dayIndex} className="day-item">
