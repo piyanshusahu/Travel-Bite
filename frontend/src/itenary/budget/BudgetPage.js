@@ -33,12 +33,12 @@ function BudgetPage(){
   };
 
   return (
-    <motion.div
+    <div
       className="container"
       style={{ margin: "50px" }}
-      initial={{ opacity: 0, x: -100 }} // Start invisible and 100px to the left
-      animate={{ opacity: 1, x: 0 }} // Animate to fully visible and original position
-      transition={{ duration: 0.8, ease: "easeOut" }} // Smooth animation
+      // initial={{ opacity: 0, x: -100 }} // Start invisible and 100px to the left
+      // animate={{ opacity: 1, x: 0 }} // Animate to fully visible and original position
+      // transition={{ duration: 0.8, ease: "easeOut" }} // Smooth animation
     >
       <Stay />
       {/* <Travel /> */}
@@ -63,7 +63,7 @@ function BudgetPage(){
       >
         Display the itenary
       </Button>
-    </motion.div>
+    </div>
   );
 }
 

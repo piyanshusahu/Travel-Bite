@@ -17,7 +17,7 @@ const Hostel=require("./models/Hostel");
 const Dormitory=require("./models/Dormitory");
 const carRentals=require("./models/CarRentals");
 const Place=require("./models/placesModel");
-//const { restaurantsModel } = require("./models/restaurantModel");
+const { resterauntsModel } = require("./models/resterauntsModel.js");
 const axios = require("axios");
 
 const { streetFoodModel } = require("./models/streetFoodModel");
@@ -201,17 +201,14 @@ app.get("/getPlaces", async (req, res) => {
   res.json(places);
 });
 
+app.get("/getResteraunts",async(req,res)=>{
+  try{
+    const rest=await resterauntsModel.find();
+    res.json(rest)
+  }catch(e){
+    console.log("Error in fetching resteraunts:",e)
+  }
+})
 
-// app.get("/getRestaurants", async (req, res) => {
-//   try {
-//     const rest = await restaurantsModel.find();
-//     res.json(rest);
-//   } catch (error) {
-//     console.error("Error fetching restaurants:", error);
-//     res.status(500).json({ message: "Server Error" });
-//   }
-    
-// });
-// 
 
 

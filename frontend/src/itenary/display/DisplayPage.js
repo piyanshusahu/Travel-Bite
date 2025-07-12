@@ -7,6 +7,7 @@ import Aos from "aos";
 import axios from "axios";
 import DestinationDisplay from "./DestinationDisplay";
 import ChatBot from "./ChatBot";
+import EatDisplay from "./EatDisplay";
 
 function DisplayPage() {
   const diesel_price = 92.43;
@@ -113,24 +114,7 @@ function DisplayPage() {
             justifyContent: "space-evenly",
           }}
         >
-          {/* Destination */}
           <DestinationDisplay />
-
-          {/* Eat */}
-          <div
-            className="section-box"
-            style={{ backgroundColor: "rgb(82, 187, 85)" }}
-          >
-            <h5>Eat</h5>
-            {resteraunt.map((placesForDay, dayIndex) => (
-              <li key={dayIndex} className="day-item">
-                Day {dayIndex + 1}:{" "}
-                {placesForDay.length > 0
-                  ? placesForDay.map((p) => p.name).join(", ")
-                  : "No places"}
-              </li>
-            ))}
-          </div>
 
           {/* Leisure */}
           <div
@@ -157,15 +141,15 @@ function DisplayPage() {
         <Button
           variant="contained"
           style={{
-            height: "10vh",
-            width: "20vw",
-            borderRadius: "2rem",
+            height: "60px",
+            width: "60px",
+            borderRadius: "50%",
             fontWeight: "bold",
-            fontSize: "1rem",
+            
           }}
           onClick={handleDetail}
         >
-          Ask anything to TravelBite's AI Bot
+          TB Bot
         </Button>
       </div>
       {displayDetail && <ChatBot />}
