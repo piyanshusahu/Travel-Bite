@@ -20,7 +20,10 @@ function ChatBot() {
       const data = await res.json();
       setResponses((prev) => [...prev, data.answer]);
     } catch (e) {
-      setResponses((prev) => [...prev, "Could not find suitable answer"]);
+      setResponses((prev) => [
+        ...prev,
+        "Network issues being faced. Please make sure you are connected to a stable internet connection",
+      ]);
     }
 
     setQuestion("");
@@ -61,16 +64,28 @@ function ChatBot() {
       >
         {responses.map((res, index) => {
           const isUser = index % 2 === 0;
+          const isNetworkError =
+            res ===
+            "Network issues being faced. Please make sure you are connected to a stable internet connection";
+
           return (
             <div
               key={index}
               style={{
-                alignSelf: isUser ? "flex-end" : "flex-start",
+                alignSelf: isNetworkError
+                  ? "flex-start"
+                  : isUser
+                  ? "flex-end"
+                  : "flex-start",
                 maxWidth: "60%",
                 padding: "10px 15px",
                 borderRadius: "20px",
-                backgroundColor: isUser ? "#0b93f6" : "#e5e5ea",
-                color: isUser ? "white" : "black",
+                backgroundColor: isNetworkError
+                  ? "#ffe5e5"
+                  : isUser
+                  ? "#0b93f6"
+                  : "#e5e5ea",
+                color: isNetworkError ? "red" : isUser ? "white" : "black",
                 fontSize: "16px",
                 boxShadow: "0 1px 3px rgba(0,0,0,0.1)",
               }}
@@ -79,6 +94,7 @@ function ChatBot() {
             </div>
           );
         })}
+
         <div ref={bottomRef}></div>
       </div>
 

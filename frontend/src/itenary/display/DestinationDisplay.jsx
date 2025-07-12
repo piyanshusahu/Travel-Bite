@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import Aos from "aos";
 import axios from "axios";
 import EatDisplay from "./EatDisplay";
+import DestinationCard from "./DestinationCard";
 
 function DestinationDisplay() {
   const diesel_price = 92.43;
@@ -23,23 +24,23 @@ function DestinationDisplay() {
   const days = Math.ceil(timeDifferenceMs / (1000 * 60 * 60 * 24));
 
   const [place, setPlace] = useState([]);
-  //const [transportPrice, setTransportPrice] = useState([]);
+  const [transportPrice, setTransportPrice] = useState([]);
 
-  // async function findDistance(lat1, lon1, lat2, lon2, origin, destination) {
-  //   const toRad = (x) => (x * Math.PI) / 180;
-  //   const R = 6371; // Earth radius in km
+  async function findDistance(lat1, lon1, lat2, lon2, origin, destination) {
+    const toRad = (x) => (x * Math.PI) / 180;
+    const R = 6371; // Earth radius in km
 
-  //   const dLat = toRad(lat2 - lat1);
-  //   const dLon = toRad(lon2 - lon1);
+    const dLat = toRad(lat2 - lat1);
+    const dLon = toRad(lon2 - lon1);
 
-  //   const a =
-  //     Math.sin(dLat / 2) ** 2 +
-  //     Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
+    const a =
+      Math.sin(dLat / 2) ** 2 +
+      Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) ** 2;
 
-  //   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  //   //console.log(`${origin}-> ${R * c}`);
-  //   return Math.ceil(R * c);
-  // }
+    const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    //console.log(`${origin}-> ${R * c}`);
+    return Math.ceil(R * c);
+  }
   useEffect(() => {
     Aos.init({ duration: 2000 });
 
