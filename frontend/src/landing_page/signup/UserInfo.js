@@ -34,29 +34,35 @@ const SignupSchema = Yup.object().shape({
 });
 
 function UserInfo() {
-  const formik = useFormik({
-    initialValues: {
-      firstName: "",
-      lastName: "",
-      gender: "",
-      userName: "",
-      email: "",
-      phone: "",
-      password: "",
-    },
-    validationSchema: SignupSchema,
-    onSubmit: (values) => {
-      axios
-        .post("http://localhost:3002/signup", values)
-        .then(() => {
-          toast.success("Signup Successful!");
-        })
-        .catch(() => {
-          toast.error("Signup Failed!");
-        });
-    },
-    validateOnMount: true,
-  });
+ const [submitted, setSubmitted] = useState(false);
+
+const formik = useFormik({
+  initialValues: {
+    firstName: "",
+    lastName: "",
+    gender: "",
+    userName: "",
+    email: "",
+    phone: "",
+    password: "",
+  },
+  validationSchema: SignupSchema,
+  onSubmit: (values) => {
+    setSubmitted(true); // mark as submitted
+
+    axios
+      .post("http://localhost:3002/signup", values)
+      .then(() => {
+        toast.success("Signup Successful!");
+      })
+      .catch(() => {
+        toast.error("Signup Failed!");
+      });
+  },
+  validateOnChange: false,
+  validateOnBlur: false,
+});
+
 
   return (
     <div className="signup">
@@ -96,7 +102,7 @@ function UserInfo() {
               <div className="error">{formik.errors.lastName}</div>
             )}
 
-            <div className="gender">
+            {/* <div className="gender">
               <h6 style={{ display: "inline", marginRight: "20px" }}>Gender</h6>
               <label style={{ marginRight: "30px" }}>
                 <input
@@ -120,10 +126,28 @@ function UserInfo() {
                 />{" "}
                 Female
               </label>
-            </div>
-            {formik.touched.gender && formik.errors.gender && (
-              <div className="error">{formik.errors.gender}</div>
-            )}
+            </div> */}
+
+<div className="input-box gender-box">
+  <select
+    name="gender"
+    onChange={formik.handleChange}
+    onBlur={formik.handleBlur}
+    value={formik.values.gender}
+  >
+    <option value="">Select Gender</option>
+    <option value="male">Male</option>
+    <option value="female">Female</option>
+  </select>
+  <FaUser className="icon" />
+</div>
+
+{submitted && formik.errors.password && (
+  <div className="error">{formik.errors.password}</div>
+)}
+
+
+         
 
             <div className="input-box">
               <input
@@ -182,7 +206,7 @@ function UserInfo() {
               <FaLock className="icon" />
             </div>
             {formik.touched.password && formik.errors.password && (
-              <div className="error">{formik.errors.password}</div>
+              <div className="error" style={{ marginBottom: "15px" }}>{formik.errors.password}</div>
             )}
 
             <div className="remember-forgot" style={{ marginLeft: "60%" }}>

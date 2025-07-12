@@ -178,16 +178,29 @@ function DestinationDisplay() {
           width: `5*${days}vw`,
         }}
       >
-        <h5>Destination</h5>
+        
+
+        <h5 style={{   display: "flex", justifyContent: "center"}}>Destination</h5>
+
         {place.map((placesForDay, dayIndex) => (
+  <DestinationCard
+    key={dayIndex}
+    day={dayIndex + 1}
+    places={placesForDay}
+    transport={transportPrice[dayIndex]}
+  />
+))}
+
+        {/* {place.map((placesForDay, dayIndex) => (
           <li key={dayIndex} className="day-item">
             Day {dayIndex + 1}:{" "}
             {placesForDay.length > 0
               ? placesForDay.map((p) => p.name).join(", ")
               : "No places"}
           </li>
-        ))}
+        ))} */}
       </div>
+      
       {/* Transport */}
       {/* <div
         className="section-box"

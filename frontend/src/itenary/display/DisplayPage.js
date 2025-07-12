@@ -108,10 +108,14 @@ function DisplayPage() {
 
         <div
           style={{
-            marginTop: "5%",
-            marginBottom: "5%",
-            display: "flex",
-            justifyContent: "space-evenly",
+            marginTop: "2%",
+            marginBottom: "2%",
+           display: "grid",
+  gridTemplateColumns: "repeat(4, 1fr)", /* 2 columns */
+  gap: "16px",
+  padding: "20px",
+  maxWidth: "90%",
+  margin: "auto",
           }}
         >
           <DestinationDisplay />
@@ -131,6 +135,7 @@ function DisplayPage() {
               </li>
             ))}
           </div>
+
         </div>
       </div>
 

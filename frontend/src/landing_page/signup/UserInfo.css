@@ -25,12 +25,18 @@
     font-style: italic;
   }
 
+  .signup{
+    display : flex;
+    justify-content: center;
+    align-items: center;
+    
+  }
   
   .wrapper{
     display : flex;
     justify-content: center;
     align-items: center;
-    
+    margin-top: 10px;
     width: 420px;
     background: transparent;
     border:2px solid rgba(255, 255, 255, .2);
@@ -136,6 +142,47 @@
     background-size: cover;
   }
 
+
+
+
+
+  .gender-box select {
+  width: 100%;
+  padding: 12px 40px 12px 12px;
+  background: transparent;
+    outline: none;
+    border: 2px solid rgba(255,255,255,.2);
+    border-radius: 40px;
+  font-size: 1rem;
+  color: #fff;
+  appearance: none;
+  outline: none;
+}
+/* dropdown options styling (text inside dropdown list) */
+.gender-box select option {
+  color: #000;       /* make text inside dropdown black */
+  background: #fff;  /* optional: white background for dropdown list */
+}
+
+.gender-box {
+  position: relative;
+}
+
+.gender-box .icon {
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #fff;
+  font-size: 1.2rem;
+  pointer-events: none;
+}
+
+.error{
+  margin-top: -20px;
+  margin-bottom: -20px;
+  color: rgb(227, 10, 10);
+}
 
   
   

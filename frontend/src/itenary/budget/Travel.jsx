@@ -92,9 +92,7 @@ function Travel() {
         </div>
       </div>
 
-      <div className="allTravel">
-        {isCarRental && <Carousel places={carRental} />}
-      </div>
+
 
       {isCarRental && <CarRNav  key={carRental._id} places = {carRental}/>}  
 
