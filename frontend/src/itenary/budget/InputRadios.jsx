@@ -6,9 +6,11 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 import Travel from "./Travel";
+import { useState } from "react";
 
-function InputRadios() {
+function InputRadios({food,setFood}) {
   const [carRentals, setcarRentals] = React.useState(false);
+
   const BpIcon = styled("li")(({ theme }) => ({
     borderRadius: "50%",
     width: 16,
@@ -101,24 +103,28 @@ function InputRadios() {
                 value="Only Veg"
                 control={<BpRadio />}
                 label="Pure Veg"
+                onClick={()=>{setFood("pure veg")}}
                 style={{ margin: "0.8rem" }}
               />
               <FormControlLabel
                 value="Jain"
                 control={<BpRadio />}
                 label="Jain"
+                onClick={()=>{setFood("jain")}}
                 style={{ margin: "0.8rem" }}
               />
               <FormControlLabel
                 value="Only Non-Veg"
                 control={<BpRadio />}
                 label="Non-Veg"
+                onClick={()=>{setFood("non veg")}}
                 style={{ margin: "0.8rem" }}
               />
               <FormControlLabel
                 value="Mixed"
                 control={<BpRadio />}
                 label="Mixed"
+                onClick={()=>{setFood("Mixed")}}
                 style={{ margin: "0.8rem" }}
               />
             </RadioGroup>

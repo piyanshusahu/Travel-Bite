@@ -8,6 +8,7 @@ import axios from "axios";
 import DestinationDisplay from "./DestinationDisplay";
 import ChatBot from "./ChatBot";
 import EatDisplay from "./EatDisplay";
+import Modify from "./Modify";
 
 function DisplayPage() {
   const diesel_price = 92.43;
@@ -22,8 +23,6 @@ function DisplayPage() {
   const [resteraunt, setResteraunt] = useState([]);
   const [transportPrice, setTransportPrice] = useState([]);
 
-  
-
   const handleDetail = () => {
     setDisplayDetail(!displayDetail);
   };
@@ -33,6 +32,7 @@ function DisplayPage() {
   const no = queryParams.get("no");
   const dep = queryParams.get("dep");
   const ret = queryParams.get("ret");
+  const food = queryParams.get("food");
 
   const depDate = new Date(dep);
   const retDate = new Date(ret);
@@ -95,6 +95,9 @@ function DisplayPage() {
             TRAVEL ITINERARY
           </h1>
         </div>
+        <div className="modification">
+          <Modify />
+        </div>
 
         <div
           className="heading-details flex"
@@ -110,15 +113,15 @@ function DisplayPage() {
           style={{
             marginTop: "2%",
             marginBottom: "2%",
-           display: "grid",
-  gridTemplateColumns: "repeat(4, 1fr)", /* 2 columns */
-  gap: "16px",
-  padding: "20px",
-  maxWidth: "90%",
-  margin: "auto",
+            display: "grid",
+            gridTemplateColumns: "repeat(4, 1fr)" /* 2 columns */,
+            gap: "16px",
+            padding: "20px",
+            maxWidth: "90%",
+            margin: "auto",
           }}
         >
-          <DestinationDisplay />
+          <DestinationDisplay food={food} />
 
           {/* Leisure */}
           <div
@@ -135,7 +138,6 @@ function DisplayPage() {
               </li>
             ))}
           </div>
-
         </div>
       </div>
 
@@ -150,7 +152,6 @@ function DisplayPage() {
             width: "60px",
             borderRadius: "50%",
             fontWeight: "bold",
-            
           }}
           onClick={handleDetail}
         >

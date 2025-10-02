@@ -9,6 +9,7 @@ import { motion } from "framer-motion"; // Import motion
 import { styled } from "@mui/material/styles";
 import InputRadios from "./InputRadios";
 import { useContext } from "react";
+import { useState } from "react";
 
 
 function BudgetPage(){
@@ -22,13 +23,15 @@ function BudgetPage(){
   const dep = queryParams.get("dep");
   const ret = queryParams.get("ret");
 
+  const[food,setFood]=useState("");
+
   const handleNext = () => {
     navigate(
       `/itenary?src=${encodeURIComponent(src)}&dest=${encodeURIComponent(
         dest
       )}&no=${encodeURIComponent(no)}&dep=${encodeURIComponent(
         dep
-      )}&ret=${encodeURIComponent(ret)}`
+      )}&ret=${encodeURIComponent(ret)}&food=${encodeURIComponent(food)}`
     );
   };
 
@@ -43,9 +46,9 @@ function BudgetPage(){
       <Stay />
       {/* <Travel /> */}
       <div className="moreFilter">
-        <InputRadios />
+        <InputRadios food={food} setFood={setFood}/>
       </div>
-
+      {console.log(food)}
       <Button
         variant="contained"
         style={{

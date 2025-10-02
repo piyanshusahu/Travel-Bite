@@ -1,65 +1,60 @@
-import React from "react";
+import React, { useState } from "react";
 import Popup from "reactjs-popup";
 import axios from "axios";
-import { Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { GoogleLogin } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
-import { googleLogout } from "@react-oauth/google";
 import "./Login.css";
 
-function Login() {
-  const handleGoogleLogin = () => {};
-
+function Login({ open = false, onClose = () => {} }) {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
-  const { CurrentUser, setCurrentUser } = useAuth();
+  const [showError, setShowError] = useState(false);
+  const { currentUser, setCurrentUser } = useAuth();
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    document.getElementById("hide").classList.add("hidden");
+    setShowError(false);
     try {
       setLoading(true);
       const res = await axios.post("http://localhost:3002/login", {
-        email: email,
-        password: password,
+        email,
+        password,
       });
 
       localStorage.setItem("token", res.data.token);
       localStorage.setItem("userID", res.data.userID);
-
       setCurrentUser(res.data.userID);
       setLoading(false);
 
       window.location.href = `/profile/${res.data.userID}`;
+      onClose(); // close popup
     } catch (err) {
-      console.log(err);
-      document.getElementById("hide").classList.remove("hidden");
+      setShowError(true);
       setLoading(false);
     }
   };
 
   return (
     <Popup
-      trigger={
-        <Link
-          className="nav-links active"
-          role="button"
-          aria-expanded="false"
-          style={{ color: "white" }}
-        >
-          Login
-        </Link>
-      }
       modal
       nested
+      open={open}
+      trigger={
+        !open && (
+          <Link className="nav-links active" role="button" style={{ color: "white" }}>
+              Login
+          </Link>
+        )
+      }
       onOpen={() => {
         document.getElementById("app-content")?.classList.add("blur");
       }}
       onClose={() => {
         document.getElementById("app-content")?.classList.remove("blur");
+        onClose(); // Notify AuthContext to reset modal state
       }}
     >
       {(close) => (
@@ -74,89 +69,57 @@ function Login() {
             width: "550px",
           }}
         >
-          <h2
-            className="mb-2"
-            style={{
-              fontFamily: "Arial, sans-serif",
-              fontSize: "40px",
-              fontWeight: "bold",
-            }}
-          >
+          <h2 className="mb-2" style={{ fontSize: "40px", fontWeight: "bold" }}>
             Welcome Back!
           </h2>
           <p className="text-muted mb-4">Please enter your credentials below</p>
-          <div
-            className="input-container"
-            style={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "4px",
-              fontFamily: "Arial, sans-serif",
-            }}
-          >
-            <label htmlFor="email">Email</label>
+          <div className="input-container" style={{ display: "flex", flexDirection: "column" }}>
+            <label>Email</label>
             <input
               type="email"
-              id="email"
               placeholder="Enter the email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
             />
             <br />
-            <label htmlFor="password">Password</label>
+            <label>Password</label>
             <input
               type="password"
-              id="password"
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          <div
-            className="hidden"
-            id="hide"
-            style={{
-              color: "red",
-              textAlign: "center",
-              marginTop: "10px",
-              paddingTop: "5px",
-            }}
-          >
-            Incorrect email or password.
-          </div>
+
+          {showError && (
+            <div style={{ color: "red", marginTop: "10px" }}>
+              Incorrect email or password.
+            </div>
+          )}
 
           <Link
             to="/forgot-password"
-            onClick={() => close()}
-            style={{
-              marginLeft: "350px",
-              textDecoration: "none",
-              marginBottom: "20px",
-              marginTop: "20px",
-              color: "black",
-              fontFamily: "Arial, sans-serif",
-            }}
+            onClick={close}
+            style={{ marginLeft: "350px", marginTop: "20px", textDecoration: "none" }}
           >
             Forgot Password?
           </Link>
-          <Link to={`/profile/${CurrentUser}`} className="text-center">
-            <button
-              onClick={handleLogin}
-              disabled={loading}
-              style={{
-                color: "white",
-                backgroundColor: "blueviolet",
-                borderRadius: "10px",
-                width: "500px",
-                height: "50px",
-                marginBottom: "15px",
-                fontFamily: "Arial, sans-serif",
-                fontSize: "18px",
-              }}
-            >
-              {loading ? "Loading..." : "Login"}
-            </button>
-          </Link>
+
+          <button
+            onClick={handleLogin}
+            disabled={loading}
+            style={{
+              color: "white",
+              backgroundColor: "blueviolet",
+              borderRadius: "10px",
+              width: "100%",
+              height: "50px",
+              marginTop: "20px",
+            }}
+          >
+            {loading ? "Loading..." : "Login"}
+          </button>
+
           <div className="divider">
             <div className="line"></div>
             <p className="text-center" style={{ whiteSpace: "nowrap" }}>
@@ -164,35 +127,30 @@ function Login() {
             </p>
             <div className="line"></div>
           </div>
-            <div
-              className="googleLogin flex"
-              style={{ justifyContent: "center", width: "100%" }}
-            >
-              <GoogleLogin
-                onSuccess={(credentialResponse) => {
-                  try{
-                    const decoded=jwtDecode(credentialResponse.credential);
-                    localStorage.setItem("token",credentialResponse.credential);
-                    localStorage.setItem("userId",decoded.sub);
-                    setCurrentUser(decoded.sub);
-                    window.location.href = `/profile/${decoded.sub}`;
-                  }catch(e){
-                    throw e;
-                  }
-                }}
-                onError={() => {
-                  console.log("Login Error");
-                }}
-                
-              />
-            </div>
+
+          <div className="googleLogin" style={{ justifyContent: "center", display: "flex" }}>
+            <GoogleLogin
+              onSuccess={(credentialResponse) => {
+                try {
+                  const decoded = jwtDecode(credentialResponse.credential);
+                  localStorage.setItem("token", credentialResponse.credential);
+                  localStorage.setItem("userID", decoded.sub);
+                  setCurrentUser(decoded.sub);
+                  window.location.href = `/profile/${decoded.sub}`;
+                  onClose(); // close popup
+                } catch (e) {
+                  console.error(e);
+                }
+              }}
+              onError={() => {
+                console.log("Google Login Error");
+              }}
+            />
+          </div>
+
           <p className="text-muted text-center" style={{ marginTop: "15px" }}>
             Don't have an account?
-            <Link
-              to="./signup"
-              onClick={() => close()} // Close the popup when the Sign Up link is clicked
-              style={{ color: "purple", marginLeft: "7px" }}
-            >
+            <Link to="/signup" onClick={close} style={{ color: "purple", marginLeft: "7px" }}>
               Sign Up
             </Link>
           </p>

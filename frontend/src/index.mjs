@@ -2,7 +2,7 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { AuthProvider } from "./context/AuthContext";
+import { AuthProvider, useAuth } from "./context/AuthContext.js";
 import HomePage from "./landing_page/home/HomePage.js";
 import About from "./landing_page/about/AboutPage.js";
 import Categories from "./landing_page/categories/Categories.js";
@@ -22,15 +22,20 @@ import ForgotPassword from "./landing_page/home/ForgotPassword.js";
 import ResetPassword from "./landing_page/home/ResetPassword.js";
 import Profile from "./landing_page/signup/profile.js";
 import { GoogleOAuthProvider } from "@react-oauth/google";
+import PrivateRoute from "./PrivateRoute.jsx";
+import LoginLayer from "./LoginLayer.js";
+
 
 import { ThemeProvider, createTheme } from "@mui/material/styles";  // <-- added MUI imports
 
-const CLIENT_ID =
-  "891259342392-4qqvjre6s72nuj0jsr4bo2vilfauq8e0.apps.googleusercontent.com";
+
+const CLIENT_ID ="891259342392-4qqvjre6s72nuj0jsr4bo2vilfauq8e0.apps.googleusercontent.com";
 
 const theme = createTheme(); // <-- create default MUI theme (customize if needed)
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
+
+
 root.render(
   <ThemeProvider theme={theme}> {/* Wrap with ThemeProvider */}
     <AuthProvider>
@@ -38,6 +43,7 @@ root.render(
         <BrowserRouter>
           <div id="app-content">
             <Navbar />
+            {/* <LoginLayer /> */}
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/about" element={<About />} />

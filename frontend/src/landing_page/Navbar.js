@@ -46,6 +46,7 @@ function Navbar() {
     const handleLogout = () => {
         localStorage.clear();
         window.location.reload();
+        window.location.href = "/";
     };
 
     const isHomePage = location.pathname === '/';

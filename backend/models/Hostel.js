@@ -1,14 +1,17 @@
 const mongoose = require("mongoose");
 
 const hostelSchema = new mongoose.Schema({
-    name:String,
-    address:String,
-    contact:Number,
-    price:Number,
-    rating:Number,
-    reviews:String,
-    city:String,
-    amenities:[String],
+  name:String,
+  address:String,
+  contact:Number,
+  price:[Number],
+  rooms:[String],
+  star:Number,
+  rating:Number,
+  reviews:String,
+  city:String,
+  amenities:[String],
+  image:[String]
 });
 
 const Hostel = mongoose.model("Hostel", hostelSchema);

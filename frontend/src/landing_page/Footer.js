@@ -69,19 +69,21 @@ function Footer() {
           <h6>Useful Links</h6>
           <ul className="footer-links">
             <li>
-              <Link to="/home">Home</Link>
+              <Link to="/">Home</Link>
             </li>
             <li>
               <Link to="/about">Know About Us</Link>
             </li>
             <li>
-              <Link to="/community">Connect to Community</Link>
+              <Link
+              //to="/community"
+              >
+                Connect to Community
+              </Link>
             </li>
             <li>
               <Link
-                to="
-              
-              /categories"
+                //to="/categories"
               >
                 Categories
               </Link>
@@ -93,13 +95,16 @@ function Footer() {
         <div className="footer-section">
           <h6>Contact Us</h6>
           <p>
-            <IoIosMail className="contact-icon" /> abc@gmail.com
+            <IoIosMail className="contact-icon" /> travelbite.4@gmail.com
           </p>
           <p>
-            <FaPhoneAlt className="contact-icon" /> +91-xxxxxxxxxx
+            <FaPhoneAlt className="contact-icon" /> +91-9830140021
           </p>
           <p>
-            <FaPhoneAlt className="contact-icon" /> +91-xxxxxxxxxxx
+            <FaPhoneAlt className="contact-icon" /> +91-9455735544
+          </p>
+          <p>
+            <FaPhoneAlt className="contact-icon" /> +91-9954246246s
           </p>
         </div>
       </div>

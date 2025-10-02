@@ -38,6 +38,7 @@ function Stay() {
     setIsHostel(false);
     setIsHotel(false);
   };
+
   useEffect(() => {
     Aos.init({ duration: 2000 });
 
@@ -62,9 +63,25 @@ function Stay() {
       .then((data) => {
         const filteredHostels = data.filter((hostel) => hostel.city === dest);
         setHostel(filteredHostels);
+        console.log(hostel)
       })
       .catch((error) => console.error("Error fetching data:", error));
-  }, [dest]);
+  }, [dest,stayBudget]);
+
+  useEffect(() => {
+    Aos.init({ duration: 2000 });
+
+    fetch("http://localhost:3002/getDormitories")
+      .then((response) => response.json())
+      .then((data) => {
+        const filteredDormitory = data.filter((dormitory) => dormitory.city === dest);
+        setDorm(filteredDormitory);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  }, [dest,stayBudget]);
+
+
+
   useEffect(() => {
     if (isHotel && hotel.length === 0) {
       alert("No hotels found at your budget");
@@ -127,15 +144,13 @@ function Stay() {
         <ItemCard img={"./media/images/dorm.png"} onClick={handleDorm} />
       </div>
       <div className="allStay">
-        {isHotel && <BottomNav stayPlace={hotel} />}
-        
-        
-        {/* {isHotel && <Carousel places={hotel} />} */}
-        {/* <BottomNav /> */}
 
-        {/* {isHotel && <BottomNav stayPlace={hotel} />}
-        {isHostel && <Carousel places={hostel} />}
-        {isDorm && <Carousel places={dorm} />} */}
+        {isHotel && <BottomNav stayPlace={hotel} />}
+
+        {isHostel && <BottomNav stayPlace={hostel} />}
+        
+        {isDorm && <BottomNav stayPlace={dorm} />}
+
       </div>
     </div>
   );

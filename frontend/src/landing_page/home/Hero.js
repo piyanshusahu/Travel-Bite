@@ -7,6 +7,10 @@ import { GrLocation } from "react-icons/gr";
 import { FaSearch } from "react-icons/fa";
 import { IoIosPeople } from "react-icons/io";
 import { useNavigate, Link } from "react-router-dom";
+import Snackbar from "@mui/material/Snackbar";
+import Alert from "@mui/material/Alert";
+
+import Login from "../Login";
 
 import Aos from "aos";
 import "aos/dist/aos.css";
@@ -34,6 +38,7 @@ function Hero() {
   const destItemRefs = useRef([]);
 
   const [isSearchActive, setIsSearchActive] = useState(false);
+  const [showSnackbar, setShowSnackbar] = useState(false);
 
   // NEW states for keyboard navigation
   const [srcHighlightedIndex, setSrcHighlightedIndex] = useState(-1);
@@ -81,6 +86,7 @@ function Hero() {
         retDate !== "" &&
         depDate >= today &&
         retDate >= depDate
+      //currUser!=null
     );
   }, [src, dest, number, depDate, retDate]);
 
@@ -130,18 +136,28 @@ function Hero() {
   };
 
   const handleNext = () => {
-    if (isSearchActive) {
-      navigate(
-        `/budget?src=${encodeURIComponent(src)}&dest=${encodeURIComponent(
-          dest
-        )}&no=${encodeURIComponent(number)}&dep=${encodeURIComponent(
-          depDate
-        )}&ret=${encodeURIComponent(retDate)}`
-      );
-    } else {
+    const token = localStorage.getItem("token");
+  
+    if (!isSearchActive) {
       console.log("Please fill in all the information.");
+      return;
     }
+  
+    if (!token) {
+      setShowSnackbar(true); // show the alert
+      return;
+    }
+  
+    // Navigate if user is signed in
+    navigate(
+      `/budget?src=${encodeURIComponent(src)}&dest=${encodeURIComponent(
+        dest
+      )}&no=${encodeURIComponent(number)}&dep=${encodeURIComponent(
+        depDate
+      )}&ret=${encodeURIComponent(retDate)}`
+    );
   };
+  
 
   // Keyboard navigation handlers for Source dropdown
   const handleSrcKeyDown = (e) => {
@@ -482,6 +498,7 @@ function Hero() {
           </div>
 
           {/* Search Button */}
+          {/* Search Button */}
           <div
             onClick={handleNext}
             className={`searchOptions flex`}
@@ -491,13 +508,25 @@ function Hero() {
             }}
           >
             <FaSearch className="icon" />
-            <Link
-              to={isSearchActive ? "./budget" : "#"}
-              style={{ pointerEvents: isSearchActive ? "auto" : "none" }}
-            >
-              <span style={{ color: "white" }}>Search</span>
-            </Link>
+            <span style={{ color: "white" }}>Search</span>
           </div>
+
+          {/* Snackbar */}
+          <Snackbar
+            open={showSnackbar}
+            autoHideDuration={6000}
+            onClose={() => setShowSnackbar(false)}
+            anchorOrigin={{ vertical: "top", horizontal: "center" }}
+          >
+            <Alert
+              onClose={() => setShowSnackbar(false)}
+              severity="warning"
+              variant="filled"
+              sx={{ width: "100%" }}
+            >
+              Please signup first!
+            </Alert>
+          </Snackbar>
         </div>
       </div>
     </section>

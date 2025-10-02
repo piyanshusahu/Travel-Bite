@@ -168,7 +168,7 @@ app.post("/reset-password/:token", async (req, res) => {
       await user.save();
 
       res.json({ message: "Password successfully reset!" });
-      window.location.href="/";
+      res.redirect("/")
   } catch (error) {
       console.error(error);
       res.status(400).json({ message: "Invalid or expired token" });
@@ -176,6 +176,8 @@ app.post("/reset-password/:token", async (req, res) => {
 });
 
 
+
+//stay API Call
 app.get("/getHotels", async (req, res) => {
   const hotels = await Hotel.find();
   res.json(hotels);
@@ -186,21 +188,25 @@ app.get("/getHostels", async (req, res) => {
   res.json(hostels);
 });
 
+app.get("/getDormitories", async (req, res) => {
+  const dorm = await Dormitory.find();
+  res.json(dorm);
+});
+
+//transport API Call
 app.get("/getCarRentals", async (req, res) => {
   const cars = await carRentals.find();
   res.json(cars);
 });
 
-app.get("/getDorms", async (req, res) => {
-  const dorm = await Dormitory.find();
-  res.json(dorm);
-});
 
+//destination API Call
 app.get("/getPlaces", async (req, res) => {
   const places = await Place.find();
   res.json(places);
 });
 
+//resteraunts API Call
 app.get("/getResteraunts",async(req,res)=>{
   try{
     const rest=await resterauntsModel.find();
@@ -209,6 +215,8 @@ app.get("/getResteraunts",async(req,res)=>{
     console.log("Error in fetching resteraunts:",e)
   }
 })
+
+//live-events API Call
 
 
 

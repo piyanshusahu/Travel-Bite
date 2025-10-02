@@ -4,9 +4,10 @@ const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
+  const [showLoginModal, setShowLoginModal] = useState(false); // 🔑 for modal
 
   return (
-    <AuthContext.Provider value={{ currentUser, setCurrentUser }}>
+    <AuthContext.Provider value={{ currentUser, setCurrentUser, showLoginModal, setShowLoginModal }}>
       {children}
     </AuthContext.Provider>
   );
