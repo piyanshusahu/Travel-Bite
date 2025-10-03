@@ -6,6 +6,8 @@ import Carousel from "./Carousel";
 import Aos from "aos";
 import { useLocation, useNavigate } from "react-router-dom";
 import HotelCard from "./HotelCard";
+import HostelCard from "./HostelCard";      
+import DormitoryCard from "./DormitoryCard";
 import BottomNav from "./BottomNav.js";
 
 function Stay() {
@@ -78,9 +80,19 @@ function Stay() {
         setDorm(filteredDormitory);
       })
       .catch((error) => console.error("Error fetching data:", error));
-  }, [dest,stayBudget]);
+  }, [dest]);
 
+  useEffect(() => {
+    Aos.init({ duration: 2000 });
 
+    fetch("http://localhost:3002/getDorms")
+      .then((response) => response.json())
+      .then((data) => {
+        const filteredDorms = data.filter((dorm) => dorm.city === dest);
+        setDorm(filteredDorms);
+      })
+      .catch((error) => console.error("Error fetching data:", error));
+  }, [dest]);
 
   useEffect(() => {
     if (isHotel && hotel.length === 0) {
@@ -100,6 +112,8 @@ function Stay() {
   return (
     <div className="budgetContainer" style={{ marginTop: "3%" }}>
     {console.log(hotel)}
+    {console.log(hostel)}
+    {console.log(dorm)}
       <div
         className="stayBudget"
         style={{ display: "flex", gap: "20px", alignItems: "center" }}

@@ -9,10 +9,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 });
 
 export default function ShowDetails({ stayPlace, open, onClose }) {
-  const id = stayPlace.id;
-  const name = stayPlace.name;
+  const id = stayPlace?.id;
+  const name = stayPlace?.name;
 
-  function handleHotelSelection() {
+  function handleHotelSelection(e) {
+    // prevent click from falling through
+    e?.stopPropagation?.();
     alert(`You selected: ${name}`);
     onClose(); // close dialog after selection
   }
@@ -34,7 +36,12 @@ export default function ShowDetails({ stayPlace, open, onClose }) {
     >
       <div className="top" style={{ justifyContent: "space-between" }}>
         <button
-          onClick={onClose}
+          // stop propagation on mouse down (best) and on click (extra safety)
+          onMouseDown={(e) => e.stopPropagation()}
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
+          }}
           style={{
             marginBottom: "1rem",
             backgroundColor: "#f3f4f6",
@@ -54,7 +61,9 @@ export default function ShowDetails({ stayPlace, open, onClose }) {
         <div className="col"></div>
         <div style={{ display: "flex", justifyContent: "center" }}>
           <Button
-            onClick={handleHotelSelection}
+            // same pattern for the Material UI Button
+            onMouseDown={(e) => e.stopPropagation()}
+            onClick={(e) => handleHotelSelection(e)}
             style={{ transition: "all ease-in 0.2s" }}
             onMouseOver={(e) => {
               e.target.style.backgroundColor = "blue";
