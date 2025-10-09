@@ -127,10 +127,7 @@ export default function DialBox({ place }) {
         </div>
       </div>
       <hr className="divider" />
-      <div className="characteristics">
-        <h3 className="subtitle">Characteristics</h3>
-        
-      </div>
+      
     </div>
   );
 }

@@ -54,39 +54,78 @@ function DestinationDisplay({ food }) {
           return hours * 60 + minutes;
         };
 
-        // sort by closing time / opening time
-        const sortedPlaces = [...filteredPlaces].sort((a, b) => {
-          const [aOpen, aClose] = a.timings?.split("–") || ["", ""];
-          const [bOpen, bClose] = b.timings?.split("–") || ["", ""];
+        // ✅ distance helper (Haversine formula)
+        const haversineDistance = (coord1, coord2) => {
+          const toRad = (x) => (x * Math.PI) / 180;
+          const [lat1, lon1] = coord1;
+          const [lat2, lon2] = coord2;
 
-          const aCloseTime = aClose ? convertToMinutes(aClose.trim()) : 1439;
-          const bCloseTime = bClose ? convertToMinutes(bClose.trim()) : 1439;
+          const R = 6371; // km
+          const dLat = toRad(lat2 - lat1);
+          const dLon = toRad(lon2 - lon1);
+          const a =
+            Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+            Math.cos(toRad(lat1)) *
+              Math.cos(toRad(lat2)) *
+              Math.sin(dLon / 2) *
+              Math.sin(dLon / 2);
+          const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+          return R * c;
+        };
 
-          if (aCloseTime !== bCloseTime) {
-            return aCloseTime - bCloseTime;
-          }
+        // ✅ compute average coordinate
+        let avgLat = 0,
+          avgLon = 0;
+        filteredPlaces.forEach((p) => {
+          avgLat += p.location.coordinates[0];
+          avgLon += p.location.coordinates[1];
+        });
+        avgLat /= filteredPlaces.length;
+        avgLon /= filteredPlaces.length;
+        const avgCoord = [avgLat, avgLon];
 
-          const aOpenTime = aOpen ? convertToMinutes(aOpen.trim()) : 0;
-          const bOpenTime = bOpen ? convertToMinutes(bOpen.trim()) : 0;
-
-          return aOpenTime - bOpenTime;
+        // ✅ sort all places by distance first
+        const distanceSorted = [...filteredPlaces].sort((a, b) => {
+          const distA = haversineDistance(a.location.coordinates, avgCoord);
+          const distB = haversineDistance(b.location.coordinates, avgCoord);
+          return distA - distB;
         });
 
-        // ✅ chunk places evenly by number of days
+        // ✅ chunk based on distance ordering
         let ans = [];
-        if (sortedPlaces.length > 0) {
-          const chunkSize = Math.ceil(sortedPlaces.length / days);
-          for (let i = 0; i < sortedPlaces.length; i += chunkSize) {
-            ans.push(sortedPlaces.slice(i, i + chunkSize));
+        if (distanceSorted.length > 0) {
+          const chunkSize = Math.ceil(distanceSorted.length / days);
+          for (let i = 0; i < distanceSorted.length; i += chunkSize) {
+            ans.push(distanceSorted.slice(i, i + chunkSize));
           }
         }
 
-        setPlace(ans);
+        // ✅ sort each chunk by timing (closing time → opening time)
+        const timeSortedChunks = ans.map((chunk) =>
+          [...chunk].sort((a, b) => {
+            const [aOpen, aClose] = a.timings?.split("–") || ["", ""];
+            const [bOpen, bClose] = b.timings?.split("–") || ["", ""];
+
+            const aCloseTime = aClose ? convertToMinutes(aClose.trim()) : 1439;
+            const bCloseTime = bClose ? convertToMinutes(bClose.trim()) : 1439;
+
+            if (aCloseTime !== bCloseTime) {
+              return aCloseTime - bCloseTime;
+            }
+
+            const aOpenTime = aOpen ? convertToMinutes(aOpen.trim()) : 0;
+            const bOpenTime = bOpen ? convertToMinutes(bOpen.trim()) : 0;
+
+            return aOpenTime - bOpenTime;
+          })
+        );
+
+        setPlace(timeSortedChunks);
       })
       .catch((error) => console.error("Error fetching data:", error));
   }, [dest, days]);
 
-  // ✅ compute average coordinates of each day's places
+  // ✅ compute average coordinates for food places
   const avgCoord = [];
   for (let i = 0; i < place.length; i++) {
     let avglat = 0;

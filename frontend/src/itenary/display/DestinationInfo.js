@@ -49,26 +49,6 @@ export default function DestinationCard({ place, open, onClose }) {
       </div>
 
       <DialBox place={place} />
-
-      <div className="row">
-        <div className="col"></div>
-        <div style={{ display: "flex", justifyContent: "center" }}>
-          <Button
-            onClick={handleHotelSelection}
-            style={{ transition: "all ease-in 0.2s" }}
-            onMouseOver={(e) => {
-              e.target.style.backgroundColor = "blue";
-              e.target.style.color = "white";
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.backgroundColor = "white";
-              e.target.style.color = "blue";
-            }}
-          >
-            Select
-          </Button>
-        </div>
-      </div>
     </Dialog>
   );
 }

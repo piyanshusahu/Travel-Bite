@@ -83,18 +83,6 @@ function Stay() {
   }, [dest]);
 
   useEffect(() => {
-    Aos.init({ duration: 2000 });
-
-    fetch("http://localhost:3002/getDorms")
-      .then((response) => response.json())
-      .then((data) => {
-        const filteredDorms = data.filter((dorm) => dorm.city === dest);
-        setDorm(filteredDorms);
-      })
-      .catch((error) => console.error("Error fetching data:", error));
-  }, [dest]);
-
-  useEffect(() => {
     if (isHotel && hotel.length === 0) {
       alert("No hotels found at your budget");
       setIsHotel(false);
@@ -159,11 +147,11 @@ function Stay() {
       </div>
       <div className="allStay">
 
-        {isHotel && <BottomNav stayPlace={hotel} />}
+        {isHotel && <BottomNav stayPlace={hotel} type={"hotel"} />}
 
-        {isHostel && <BottomNav stayPlace={hostel} />}
+        {isHostel && <BottomNav stayPlace={hostel} type={"hostel"} />}
         
-        {isDorm && <BottomNav stayPlace={dorm} />}
+        {isDorm && <BottomNav stayPlace={dorm} type={"dorm"}/>}
 
       </div>
     </div>
