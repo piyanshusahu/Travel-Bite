@@ -36,8 +36,8 @@ export default function HotelCard({ stayPlace }) {
         style={{ transition: "transform 0.2s ease", cursor: "pointer" }}
       >
         <img
-          src="/media/images/hotp.webp"
-          alt="Taj Mahal Palace"
+          src={stayPlace.name || "/media/images/hotp.webp"}
+          alt={stayPlace.name || "Taj Mahal Palace"}
           className="hotel-image"
         />
 
