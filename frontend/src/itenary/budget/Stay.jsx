@@ -2,19 +2,19 @@ import React, { useEffect, useState } from "react";
 import ItemCard from "./ItemCard";
 import TextField from "@mui/material/TextField";
 import Slider from "@mui/material/Slider";
-import Carousel from "./Carousel";
 import Aos from "aos";
 import { useLocation, useNavigate } from "react-router-dom";
-import HotelCard from "./HotelCard";
-import HostelCard from "./HostelCard";      
-import DormitoryCard from "./DormitoryCard";
 import BottomNav from "./BottomNav.js";
 
 function Stay() {
   const location = useLocation();
+  const navigate = useNavigate();
+
   const queryParams = new URLSearchParams(location.search);
   const dest = queryParams.get("dest");
+
   const [stayBudget, setStayBudget] = useState(0);
+
   const [isHotel, setIsHotel] = useState(false);
   const [isHostel, setIsHostel] = useState(false);
   const [isDorm, setIsDorm] = useState(false);
@@ -25,61 +25,71 @@ function Stay() {
 
   const [showLabel, setLabel] = useState(false);
 
-  let handleHotel = () => {
+  const handleHotel = () => {
     setIsHotel(!isHotel);
     setIsHostel(false);
     setIsDorm(false);
   };
-  let handleHostel = () => {
+
+  const handleHostel = () => {
     setIsHostel(!isHostel);
     setIsHotel(false);
     setIsDorm(false);
   };
-  let handleDorm = () => {
+
+  const handleDorm = () => {
     setIsDorm(!isDorm);
-    setIsHostel(false);
     setIsHotel(false);
+    setIsHostel(false);
+  };
+
+  // ✅ FIXED: update URL instead of navigating again
+  const handleSelectHotel = (hotelId) => {
+    const params = new URLSearchParams(location.search);
+    params.set("hotelId", hotelId);
+
+    navigate(
+      {
+        pathname: "/budget",
+        search: params.toString(),
+      },
+      { replace: true }
+    );
   };
 
   useEffect(() => {
     Aos.init({ duration: 2000 });
 
     fetch("http://localhost:3002/getHotels")
-      .then((response) => response.json())
+      .then((res) => res.json())
       .then((data) => {
-        const filteredHotels = data
+        const filtered = data
           .filter(
-            (hotel) => hotel.city === dest && stayBudget >= hotel["price"][0]
+            (h) => h.city === dest && stayBudget >= h.price[0]
           )
           .sort((a, b) => b.price[0] - a.price[0]);
-        setHotel(filteredHotels);
+
+        setHotel(filtered);
       })
-      .catch((error) => console.error("Error fetching data:", error));
+      .catch(console.error);
   }, [dest, stayBudget]);
- 
-  useEffect(() => {
-    Aos.init({ duration: 2000 });
 
+  useEffect(() => {
     fetch("http://localhost:3002/getHostels")
-      .then((response) => response.json())
+      .then((res) => res.json())
       .then((data) => {
-        const filteredHostels = data.filter((hostel) => hostel.city === dest);
-        setHostel(filteredHostels);
-        console.log(hostel)
+        setHostel(data.filter((h) => h.city === dest));
       })
-      .catch((error) => console.error("Error fetching data:", error));
-  }, [dest,stayBudget]);
+      .catch(console.error);
+  }, [dest]);
 
   useEffect(() => {
-    Aos.init({ duration: 2000 });
-
     fetch("http://localhost:3002/getDormitories")
-      .then((response) => response.json())
+      .then((res) => res.json())
       .then((data) => {
-        const filteredDormitory = data.filter((dormitory) => dormitory.city === dest);
-        setDorm(filteredDormitory);
+        setDorm(data.filter((d) => d.city === dest));
       })
-      .catch((error) => console.error("Error fetching data:", error));
+      .catch(console.error);
   }, [dest]);
 
   useEffect(() => {
@@ -88,51 +98,41 @@ function Stay() {
       setIsHotel(false);
     }
     if (isHostel && hostel.length === 0) {
-      alert("No hostels found at your budget");
+      alert("No hostels found");
       setIsHostel(false);
     }
     if (isDorm && dorm.length === 0) {
-      alert("No dormitories found at your budget");
+      alert("No dormitories found");
       setIsDorm(false);
     }
   }, [hotel, hostel, dorm, isHotel, isHostel, isDorm]);
 
   return (
     <div className="budgetContainer" style={{ marginTop: "3%" }}>
-    {console.log(hotel)}
-    {console.log(hostel)}
-    {console.log(dorm)}
       <div
         className="stayBudget"
         style={{ display: "flex", gap: "20px", alignItems: "center" }}
       >
-        <div>
-          <TextField
-            id="outlined-basic"
-            label="Stay Budget"
-            variant="outlined"
-            type="number"
-            inputProps={{ min: 0, step: 100 }}
-            value={stayBudget}
-            onChange={(e) => setStayBudget(e.target.value)}
-          />
-        </div>
-        <div>
-          <Slider
-            defaultValue={1000}
-            min={0}
-            max={100000}
-            step={100}
-            value={stayBudget}
-            aria-label="Default"
-            style={{ width: "50vw" }}
-            onChange={(e) => setStayBudget(Number(e.target.value))}
-            onMouseOver={() => setLabel(true)}
-            onMouseLeave={() => setLabel(false)}
-            valueLabelDisplay={showLabel ? "on" : "off"}
-          />
-        </div>
+        <TextField
+          label="Stay Budget"
+          type="number"
+          value={stayBudget}
+          onChange={(e) => setStayBudget(Number(e.target.value))}
+        />
+
+        <Slider
+          min={0}
+          max={100000}
+          step={100}
+          value={stayBudget}
+          style={{ width: "50vw" }}
+          onChange={(e) => setStayBudget(Number(e.target.value))}
+          onMouseOver={() => setLabel(true)}
+          onMouseLeave={() => setLabel(false)}
+          valueLabelDisplay={showLabel ? "on" : "off"}
+        />
       </div>
+
       <div
         className="stay"
         style={{
@@ -141,18 +141,27 @@ function Stay() {
           padding: "2rem",
         }}
       >
-        <ItemCard img={"./media/images/hotel.png"} onClick={handleHotel} />
-        <ItemCard img={"./media/images/hostel.png"} onClick={handleHostel} />
-        <ItemCard img={"./media/images/dorm.png"} onClick={handleDorm} />
+        <ItemCard img="./media/images/hotel.png" onClick={handleHotel} />
+        <ItemCard img="./media/images/hostel.png" onClick={handleHostel} />
+        <ItemCard img="./media/images/dorm.png" onClick={handleDorm} />
       </div>
+
       <div className="allStay">
+        {isHotel && (
+          <BottomNav
+            stayPlace={hotel}
+            type="hotel"
+            onSelectHotel={handleSelectHotel}
+          />
+        )}
 
-        {isHotel && <BottomNav stayPlace={hotel} type={"hotel"} />}
+        {isHostel && (
+          <BottomNav stayPlace={hostel} type="hostel" />
+        )}
 
-        {isHostel && <BottomNav stayPlace={hostel} type={"hostel"} />}
-        
-        {isDorm && <BottomNav stayPlace={dorm} type={"dorm"}/>}
-
+        {isDorm && (
+          <BottomNav stayPlace={dorm} type="dorm" />
+        )}
       </div>
     </div>
   );

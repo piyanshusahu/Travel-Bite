@@ -1,20 +1,13 @@
-import React from "react";
-import TextField from "@mui/material/TextField";
-import Slider from "@mui/material/Slider";
-import Stay from "./Stay";
-import Travel from "./Travel";
+import React, { useState } from "react";
 import Button from "@mui/material/Button";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion"; // Import motion
-import { styled } from "@mui/material/styles";
+import { useLocation, useNavigate } from "react-router-dom";
+import Stay from "./Stay";
 import InputRadios from "./InputRadios";
-import { useContext } from "react";
-import { useState } from "react";
 
-
-function BudgetPage(){
+function BudgetPage() {
   const location = useLocation();
   const navigate = useNavigate();
+
   const queryParams = new URLSearchParams(location.search);
 
   const src = queryParams.get("src");
@@ -22,33 +15,29 @@ function BudgetPage(){
   const no = queryParams.get("no");
   const dep = queryParams.get("dep");
   const ret = queryParams.get("ret");
+  const hotelId = queryParams.get("hotelId");
 
-  const[food,setFood]=useState("");
+  const [food, setFood] = useState("");
 
   const handleNext = () => {
+    if (!hotelId) {
+      alert("Please select a hotel first");
+      return;
+    }
+
     navigate(
-      `/itenary?src=${encodeURIComponent(src)}&dest=${encodeURIComponent(
-        dest
-      )}&no=${encodeURIComponent(no)}&dep=${encodeURIComponent(
-        dep
-      )}&ret=${encodeURIComponent(ret)}&food=${encodeURIComponent(food)}`
+      `/itenary?src=${src}&dest=${dest}&no=${no}&dep=${dep}&ret=${ret}&food=${food}&hotelId=${hotelId}`
     );
   };
 
   return (
-    <div
-      className="container"
-      style={{ margin: "50px" }}
-      // initial={{ opacity: 0, x: -100 }} // Start invisible and 100px to the left
-      // animate={{ opacity: 1, x: 0 }} // Animate to fully visible and original position
-      // transition={{ duration: 0.8, ease: "easeOut" }} // Smooth animation
-    >
+    <div className="container" style={{ margin: "50px" }}>
       <Stay />
-      {/* <Travel /> */}
+
       <div className="moreFilter">
-        <InputRadios food={food} setFood={setFood}/>
+        <InputRadios food={food} setFood={setFood} />
       </div>
-      {console.log(food)}
+
       <Button
         variant="contained"
         style={{
@@ -64,7 +53,7 @@ function BudgetPage(){
         }}
         onClick={handleNext}
       >
-        Display the itenary
+        Display the itinerary
       </Button>
     </div>
   );
